@@ -1,0 +1,86 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://game/levels/level_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://game/objects/prototype/ground_green.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/objects/zone_switch_area.tscn" type="PackedScene" id=3]
+[ext_resource path="res://game/objects/prototype/cube_green.tscn" type="PackedScene" id=4]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 35, 1, 35 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 1, 2, 0.25 )
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+albedo_color = Color( 0, 0, 0, 0.25098 )
+
+[sub_resource type="CubeMesh" id=4]
+material = SubResource( 3 )
+size = Vector3( 2, 4, 0.5 )
+
+[node name="TestLevel" instance=ExtResource( 1 )]
+
+[node name="Ground" type="Spatial" parent="." index="1"]
+__meta__ = {
+"_editor_description_": "Scene ground node"
+}
+
+[node name="GroundGreen" parent="Ground" index="0" instance=ExtResource( 2 )]
+
+[node name="FallReload" parent="Ground" index="1" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0 )
+__meta__ = {
+"_editor_description_": "Zone-switch area to catch the player if they fall off the ground. It triggers a reset on the current scene."
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="Ground/FallReload" index="0"]
+shape = SubResource( 1 )
+
+[node name="GreenArch" type="Spatial" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10 )
+
+[node name="CubeGreen" parent="GreenArch" index="0" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0 )
+
+[node name="CubeGreen2" parent="GreenArch" index="1" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 0 )
+
+[node name="CubeGreen3" parent="GreenArch" index="2" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 5, 0 )
+
+[node name="CubeGreen4" parent="GreenArch" index="3" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
+
+[node name="CubeGreen5" parent="GreenArch" index="4" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5, 0 )
+
+[node name="CubeGreen6" parent="GreenArch" index="5" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, 0 )
+
+[node name="CubeGreen7" parent="GreenArch" index="6" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0 )
+
+[node name="ZoneSwitchArea" parent="GreenArch" index="7" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+zone_scene = "res://game/levels/main_level/main_level.tscn"
+
+[node name="CollisionShape" type="CollisionShape" parent="GreenArch/ZoneSwitchArea" index="0"]
+shape = SubResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="GreenArch/ZoneSwitchArea" index="1"]
+mesh = SubResource( 4 )
+
+[node name="Label" type="Label3D" parent="GreenArch" index="8"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 4.3, 1.1 )
+double_sided = false
+text = "This Zone-switch area
+loads the main scene"
+horizontal_alignment = 0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="DirectionalLight" type="DirectionalLight" parent="." index="3"]
+transform = Transform( 0.5, 0.612373, -0.612373, 0, 0.707107, 0.707107, 0.866025, -0.353553, 0.353553, 0, 10, 0 )
+light_energy = 0.5

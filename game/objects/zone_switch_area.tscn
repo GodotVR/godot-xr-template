@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/objects/zone_switch_area.gd" type="Script" id=1]
+
+[node name="ZoneSwitchArea" type="Area"]
+collision_layer = 0
+collision_mask = 524288
+monitorable = false
+script = ExtResource( 1 )
