@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/kenney/blasterkit/Models/GLTF format/foamBulletB-low.glb" type="PackedScene" id=1]
+[ext_resource path="res://game/levels/tutorial_level/Bullet.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape" id=1]
+margin = 0.01
+radius = 0.01
+height = 0.05
+
+[node name="Bullet" type="RigidBody"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 2 )
+
+[node name="foamBulletB-low" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="LifeTime" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="LifeTime" to="." method="_on_LifeTime_timeout"]

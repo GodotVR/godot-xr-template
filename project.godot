@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/misc/arvr_helpers.gd"
 }, {
+"base": "Spatial",
+"class": "Scatter",
+"language": "GDScript",
+"path": "res://game/objects/helpers/scatter.gd"
+}, {
 "base": "Node",
 "class": "XRTools",
 "language": "GDScript",
@@ -296,6 +301,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ARVRHelpers": "",
+"Scatter": "",
 "XRTools": "",
 "XRToolsClimbable": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsFallDamage": "",
@@ -372,10 +378,6 @@ enabled=PoolStringArray( "res://addons/godot-openxr/plugin.cfg", "res://addons/g
 [gdnative]
 
 singletons=[ "res://addons/godot-openxr/config/godot_openxr.gdnlib" ]
-
-[godot_xr_tools]
-
-input/default_snap_turning=false
 
 [gui]
 

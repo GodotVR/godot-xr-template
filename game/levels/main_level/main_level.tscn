@@ -71,7 +71,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -7 )
 
 [node name="ZoneSwitchArea" parent="TeleportRamp" index="7" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -6 )
-zone_scene = "res://game/levels/test_level/test_level.tscn"
+zone_scene = "res://game/levels/tutorial_level/tutorial_level.tscn"
 
 [node name="CollisionShape" type="CollisionShape" parent="TeleportRamp/ZoneSwitchArea" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )

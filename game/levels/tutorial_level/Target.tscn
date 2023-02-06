@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/kenney/blasterkit/Models/GLTF format/targetA.glb" type="PackedScene" id=1]
+[ext_resource path="res://game/levels/tutorial_level/Target.gd" type="Script" id=2]
+[ext_resource path="res://assets/freesound/metal_hit/468837__christianand__25_metal_chocando.wav" type="AudioStream" id=3]
+
+[sub_resource type="CylinderShape" id=1]
+height = 0.118139
+radius = 0.177931
+
+[node name="Target" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Area" type="Area" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="targetA" parent="Area" instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="HitSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 3 )
+
+[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

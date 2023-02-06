@@ -1,6 +1,6 @@
 # Godot XR Template
 
-This repository contains a template Godot project for building a simple VR game.
+This branch contains an example of a toy gun game implemented with the template.
 
 
 # Assets
@@ -33,10 +33,9 @@ Common areas to find assets are:
  - [AmbientCG](https://ambientcg.com/) for object and sky textures
  - [FreePD.com](https://freepd.com/) for sound tracks
  - [FreeSound](https://freesound.org/) for sound effects
- - [Kenney.nl](https://kenney.nl/) 
+ - [Kenney.nl](https://kenney.nl/)
 
 
 # More Information
 
 Information on the Godot XR Tools can be found on [the website](https://godotvr.github.io/godot-xr-tools/).
-

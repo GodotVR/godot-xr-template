@@ -1,0 +1,8 @@
+[gd_resource type="SpatialMaterial" format=2]
+
+[resource]
+flags_unshaded = true
+params_cull_mode = 1
+params_grow = true
+params_grow_amount = 0.01
+albedo_color = Color( 0.901961, 0.831373, 0.0666667, 1 )

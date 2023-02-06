@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/kenney/survivalkit/Models/GLTF format/fenceFortified.glb" type="PackedScene" id=1]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 1, 1.03035, 0.112724 )
+
+[node name="Fence" type="Spatial"]
+
+[node name="fenceFortified" parent="." instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12333, -0.885591 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0774131, -0.00967693 )
+shape = SubResource( 1 )
