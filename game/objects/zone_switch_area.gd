@@ -5,6 +5,9 @@ extends Area
 ## Zone scene file
 export (String, FILE, '*.tscn') var zone_scene : String = ""
 
+## If true the zone switcher is enabled
+export var enabled : bool = true
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,6 +16,10 @@ func _ready():
 
 # Called when a body enters this area
 func _on_body_entered(body : Spatial):
+	# Ignore if not enabled
+	if not enabled:
+		return
+
 	# Skip if it wasn't the player entering
 	if not body.is_in_group("player_body"):
 		return
