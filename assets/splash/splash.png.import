@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/splash.png-7273e30cd2f194d6902089aa68996218.s3tc.stex"
-path.etc="res://.import/splash.png-7273e30cd2f194d6902089aa68996218.etc.stex"
+path.s3tc="res://.import/splash.png-ddd7480ad7b4a7a930dddcd20e278b1e.s3tc.stex"
+path.etc="res://.import/splash.png-ddd7480ad7b4a7a930dddcd20e278b1e.etc.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://game/textures/splash.png"
-dest_files=[ "res://.import/splash.png-7273e30cd2f194d6902089aa68996218.s3tc.stex", "res://.import/splash.png-7273e30cd2f194d6902089aa68996218.etc.stex" ]
+source_file="res://assets/splash/splash.png"
+dest_files=[ "res://.import/splash.png-ddd7480ad7b4a7a930dddcd20e278b1e.s3tc.stex", "res://.import/splash.png-ddd7480ad7b4a7a930dddcd20e278b1e.etc.stex" ]
 
 [params]
 
