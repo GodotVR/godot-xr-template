@@ -1,6 +1,22 @@
 # Godot XR Template
 
+![GitHub forks](https://img.shields.io/github/forks/godotvr/godot-xr-template?style=plastic)
+![GitHub Repo stars](https://img.shields.io/github/stars/godotvr/godot-xr-template?style=plastic)
+![GitHub contributors](https://img.shields.io/github/contributors/godotvr/godot-xr-template?style=plastic)
+![GitHub](https://img.shields.io/github/license/godotvr/godot-xr-template?style=plastic)
+
 This repository contains a template Godot project for building a simple VR game.
+
+
+## Versions
+
+Official releases are tagged and can be found [here](https://github.com/GodotVR/godot-xr-template/releases).
+
+The following branches are in active development:
+|  Branch  |  Description                  |  Godot version  |
+|----------|-------------------------------|-----------------|
+|   main   | Current development branch    |  Godot 4.0+     |
+|    3.x   | Godot 3.x development branch  |  Godot 3.5+     |
 
 
 # Assets
