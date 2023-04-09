@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "Scatter",
 "language": "GDScript",
-"path": "res://game/objects/helpers/scatter.gd"
+"path": "res://components/helpers/scatter.gd"
 }, {
 "base": "Node",
 "class": "XRTools",
