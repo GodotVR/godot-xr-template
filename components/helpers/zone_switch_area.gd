@@ -1,21 +1,21 @@
-tool
-extends Area
+@tool
+extends Area3D
 
 
 ## Zone scene file
-export (String, FILE, '*.tscn') var zone_scene : String = ""
+@export_file('*.tscn') var zone_scene : String = ""
 
 ## If true the zone switcher is enabled
-export var enabled : bool = true
+@export var enabled : bool = true
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	connect("body_entered", self, "_on_body_entered")
+	connect("body_entered", Callable(self, "_on_body_entered"))
 
 
 # Called when a body enters this area
-func _on_body_entered(body : Spatial):
+func _on_body_entered(body : Node3D):
 	# Ignore if not enabled
 	if not enabled:
 		return
@@ -25,7 +25,7 @@ func _on_body_entered(body : Spatial):
 		return
 
 	# Find our scene base
-	var scene_base : XRToolsSceneBase = XRTools.find_ancestor(self, "*", "XRToolsSceneBase")
+	var scene_base : XRToolsSceneBase = XRTools.find_xr_ancestor(self, "*", "XRToolsSceneBase")
 	if not scene_base:
 		return
 

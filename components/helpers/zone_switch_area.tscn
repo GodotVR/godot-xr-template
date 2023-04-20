@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://vm423o6hdlya"]
 
-[ext_resource path="res://components/helpers/zone_switch_area.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://components/helpers/zone_switch_area.gd" id="1"]
 
-[node name="ZoneSwitchArea" type="Area"]
+[node name="ZoneSwitchArea" type="Area3D"]
 collision_layer = 0
 collision_mask = 524288
 monitorable = false
-script = ExtResource( 1 )
+script = ExtResource("1")
