@@ -22,8 +22,8 @@ The following branches are in active development:
 # Assets
 
 This project uses the following assets:
- - [OpenXR Plugin](https://godotengine.org/asset-library/asset/986)
  - [Godot XR Tools](https://godotengine.org/asset-library/asset/1515)
+ - [OpenXR Loaders](https://github.com/GodotVR/godot_openxr_loaders)
  - [Kenney Prototype Textures](https://godotengine.org/asset-library/asset/780)
 
 
@@ -41,6 +41,21 @@ The game should be customized by:
  - Add game state variables to the game_state.gd singleton class
  - Replacing the demo levels with levels suitable to the game
 
+
+# Exporting to Android
+
+The template contains a copy of the XR loaders plugin
+and preconfigured exports for android based headsets that support OpenXR.
+
+Before this can be used you do need to install the android build template.
+Select the menu `Editor->Manage Export Templates...` to download the templates.
+Select the menu `Project->Install Android Build Template...` to install the template.
+
+Make sure you set the correct entry in the export templates to runable
+if you want to use one click deploy to your device.
+
+Please refer to the official documentation for Godots prerequisits for exporting to android:
+https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html
 
 # Recommended Asset Locations
 
