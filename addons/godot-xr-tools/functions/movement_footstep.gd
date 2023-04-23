@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsMovementFootstep
 extends XRToolsMovementProvider
 
@@ -10,34 +10,26 @@ extends XRToolsMovementProvider
 ## currently walking on.
 
 
-# Some value indicating the player wants to walk at a moderate speed
-const WALK_SOUND_THRESHOLD := 0.3
+## Signal emitted when a footstep is generated
+signal footstep(name)
+
 
 # Number of audio players to pool
 const AUDIO_POOL_SIZE := 3
 
 
 ## Movement provider order
-export var order : int = 1001
-
-## Audio dB
-export(float, -80.0, 80.0) var audio_db : float = 0.0
-
-## Audio dB
-export(float, -24.0, 6.0) var audio_max_db : float = 3.0
-
-## Audio size
-export(float, 0.1, 100.0) var audio_size : float = 3.0
-
-## Audio max distance
-export(float, 0.0, 4096.0) var audio_distance : float = 10.0
+@export var order : int = 1001
 
 ## Default XRToolsSurfaceAudioType when not overridden
-export var default_surface_audio_type : Resource
+@export var default_surface_audio_type : XRToolsSurfaceAudioType
 
+## Speed at which the player is considered walking
+@export var walk_speed := 0.4
 
 ## Step per meter by time
-export var steps_per_meter = 1.0
+@export var steps_per_meter = 1.0
+
 
 # step time
 var step_time = 0.0
@@ -46,10 +38,10 @@ var step_time = 0.0
 var _old_on_ground := true
 
 # Node representing the location of the players foot
-var _foot_spatial : Spatial
+var _foot_spatial : Node3D
 
 # Pool of idle AudioStreamPlayer3D nodes
-var _audio_pool_idle : Array
+var _audio_pool_idle : Array[AudioStreamPlayer3D]
 
 # Last ground node
 var _ground_node : Node
@@ -59,48 +51,48 @@ var _ground_node_audio_type : XRToolsSurfaceAudioType
 
 
 ## PlayerBody - Player Physics Body Script
-onready var player_body := XRToolsPlayerBody.find_instance(self)
+@onready var player_body := XRToolsPlayerBody.find_instance(self)
 
 
 # Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsMovementFootstep" or .is_class(name)
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementFootstep" or super(name)
 
 
 func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 	# Construct the foot spatial - we will move it around as the player moves.
-	_foot_spatial = Spatial.new()
+	_foot_spatial = Node3D.new()
 	_foot_spatial.name = "FootSpatial"
 	add_child(_foot_spatial)
 
-	# Construct the pool of audio players
+	# Make the array of players in _audio_pool_idle
 	for i in AUDIO_POOL_SIZE:
-		var player := AudioStreamPlayer3D.new()
-		player.name = "AudioPlayer%d" % (i + 1)
-		player.attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_SQUARE_DISTANCE
-		player.unit_db = audio_db
-		player.unit_size = audio_size
-		player.max_db = audio_max_db
-		player.max_distance = audio_distance
-		player.connect("finished", self, "_on_player_finished", [ player ])
+		var player = $PlayerSettings.duplicate()
+		player.name = "PlayerCopy%d" % (i + 1)
 		_foot_spatial.add_child(player)
 		_audio_pool_idle.append(player)
+		player.finished.connect(_on_player_finished.bind(player))
 
 	# Set as always active
 	is_active = true
 
 	# Listen for the player jumping
-	player_body.connect("player_jumped", self, "_on_player_jumped")
+	player_body.player_jumped.connect(_on_player_jumped)
 
 
 # This method checks for configuration issues.
-func _get_configuration_warning():
-	# Verify hit sound
-	if default_surface_audio_type and !default_surface_audio_type is XRToolsSurfaceAudioType:
-		return "Default surface audio type is not an XRToolsSurfaceAudioType"
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
 
-	# No configuration issues detected
-	return ""
+	# Verify player settings node exists
+	if not $PlayerSettings:
+		warnings.append("Missing player settings node")
+
+	# Return warnings
+	return warnings
 
 
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
@@ -110,6 +102,11 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	# Update the ground audio information
 	_update_ground_audio()
 
+	# Skip if footsteps have been disabled
+	if not enabled:
+		step_time = 0
+		return
+
 	# Detect landing on ground
 	if not _old_on_ground and player_body.on_ground:
 		# Play the ground hit sound
@@ -118,34 +115,28 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	# Update the old on_ground state
 	_old_on_ground = player_body.on_ground
 	if not player_body.on_ground:
-		step_time = 0
+		step_time = 0 	# Reset when not on ground
 		return
 
-	# Count down the step timer, and skip if silenced
-	step_time = max(0, step_time - _delta * player_body.ground_control_velocity.length())
-	if step_time > 0:
+	# Handle slow/stopped
+	if player_body.ground_control_velocity.length() < walk_speed:
+		step_time = 0	# Reset when slow/stopped
 		return
 
-	# Play walking sounds if the player is trying to walk
-	if player_body.ground_control_velocity.length() > WALK_SOUND_THRESHOLD:
-		# Play the step sound and set the step delay timer
+	# Count up the step timer, and skip if not take a step yet
+	step_time += _delta * player_body.ground_control_velocity.length()
+	if step_time > steps_per_meter:
 		_play_step_sound()
-		step_time = steps_per_meter
+		step_time = 0
 
 
-# Called when the player jumps
-func _on_player_jumped() -> void:
-	# Play the hit sound for whatever ground the player was standing on
-	_play_ground_hit()
-
-
-# Update ther foot spatial to be where the players foot is
+# Update the foot spatial to be where the players foot is
 func _update_foot_spatial() -> void:
 	# Project the players camera down to the XZ plane (real-world space)
-	var local_foot := Plane.PLANE_XZ.project(player_body.camera_node.translation)
+	var local_foot := Plane.PLANE_XZ.project(player_body.camera_node.position)
 
 	# Move the foot_spatial to the local foot in the global origin space
-	_foot_spatial.global_translation = player_body.origin_node.global_transform.xform(local_foot)
+	_foot_spatial.global_position = player_body.origin_node.global_transform * local_foot
 
 
 # Update the ground audio information
@@ -163,7 +154,7 @@ func _update_ground_audio() -> void:
 		return
 
 	# Find the surface audio for the ground (if any)
-	var ground_audio : XRToolsSurfaceAudio = XRTools.find_child(
+	var ground_audio : XRToolsSurfaceAudio = XRTools.find_xr_child(
 		_ground_node, "*", "XRToolsSurfaceAudio")
 	if ground_audio:
 		_ground_node_audio_type = ground_audio.surface_audio_type
@@ -171,57 +162,71 @@ func _update_ground_audio() -> void:
 		_ground_node_audio_type = default_surface_audio_type
 
 
-# Play the hit sound made when the player lands on the ground
-func _play_ground_hit() -> void:
-	# Skip if no ground audio
+# Called when the player jumps
+func _on_player_jumped() -> void:
+	# Skip if no jump sound
 	if not _ground_node_audio_type:
 		return
 
-	# Get an idle audio player
-	var player := _get_idle_audio_player()
-	if not player:
+	# Play the jump sound
+	_play_sound(
+			_ground_node_audio_type.name,
+			_ground_node_audio_type.jump_sound)
+
+
+# Play the hit sound made when the player lands on the ground
+func _play_ground_hit() -> void:
+	# Skip if no hit sound
+	if not _ground_node_audio_type:
 		return
 
 	# Play the hit sound
-	player.stream = _ground_node_audio_type.hit_sound
-	player.pitch_scale = 1.0
-	player.play()
+	_play_sound(
+			_ground_node_audio_type.name,
+			_ground_node_audio_type.hit_sound)
 
 
 # Play a step sound for the current ground
 func _play_step_sound() -> void:
-	# Skip if no ground audio
-	if not _ground_node_audio_type:
-		return
-
-	# Get an idle audio player
-	var player := _get_idle_audio_player()
-	if not player:
+	# Skip if no walk audio
+	if not _ground_node_audio_type or _ground_node_audio_type.walk_sounds.size() == 0:
 		return
 
 	# Pick the sound index
 	var idx := randi() % _ground_node_audio_type.walk_sounds.size()
 
 	# Pick the playback pitck
-	var pitch := rand_range(
+	var pitch := randf_range(
 			_ground_node_audio_type.walk_pitch_minimum,
 			_ground_node_audio_type.walk_pitch_maximum)
 
 	# Play the walk sound
-	player.stream = _ground_node_audio_type.walk_sounds[idx]
+	_play_sound(
+			_ground_node_audio_type.name,
+			_ground_node_audio_type.walk_sounds[idx],
+			pitch)
+
+
+# Play the specified audio stream at the requested pitch using an
+# AudioStreamPlayer3D in the idle pool of players.
+func _play_sound(name : String, stream : AudioStream, pitch : float = 1.0) -> void:
+	# Skip if no stream provided
+	if not stream:
+		return
+
+	# Emit the footstep signal
+	footstep.emit(name)
+
+	# Verify we have an audio player
+	if _audio_pool_idle.size() == 0:
+		push_warning("XRToolsMovementFootstep idle audio pool empty")
+		return
+
+	# Play the sound
+	var player : AudioStreamPlayer3D = _audio_pool_idle.pop_front()
+	player.stream = stream
 	player.pitch_scale = pitch
 	player.play()
-
-
-# Called to get an idle AudioStreamPlayer3D to play a sound
-func _get_idle_audio_player() -> AudioStreamPlayer3D:
-	# Return the next idle player
-	if _audio_pool_idle.size() > 0:
-		return _audio_pool_idle.pop_front()
-
-	# No players available
-	push_warning("XRToolsMovementFootstep idle audio pool empty")
-	return null
 
 
 # Called when an AudioStreamPlayer3D in our pool finishes playing its sound
@@ -234,7 +239,7 @@ func _on_player_finished(player : AudioStreamPlayer3D) -> void:
 ## This function searches from the specified node for an [XRToolsMovementFootstep]
 ## assuming the node is a sibling of the body under an [ARVROrigin].
 static func find_instance(node: Node) -> XRToolsMovementFootstep:
-	return XRTools.find_child(
-		ARVRHelpers.get_arvr_origin(node),
+	return XRTools.find_xr_child(
+		XRHelpers.get_xr_origin(node),
 		"*",
 		"XRToolsMovementFootstep") as XRToolsMovementFootstep

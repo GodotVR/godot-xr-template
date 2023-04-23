@@ -1,3 +1,19 @@
+# 4.1.0
+- Enhanced grappling to support collision and target layers
+- Added Godot Editor XR Tools menu for layers and openxr configuration
+- Improved gliding to support roll-turning while flapping
+
+# 4.0.0
+- Conversion to Godot 4
+- Fixed footstep resource leak and added jump sounds and footstep signal
+- Added grab-point switching to pickable objects
+- Added return-to-snap-zone feature
+
+# 3.4.0
+- Fixed footstep resource leak and added jump sounds and footstep signal
+- Added grab-point switching to pickable objects
+- Added return-to-snap-zone feature
+
 # 3.3.0
 - Added reset-scene and scene-control functions to scene-base
 - Fixed snap-zones stealing objects picked out of other near-by snap-zones
