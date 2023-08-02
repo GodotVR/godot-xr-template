@@ -14,7 +14,7 @@ size = Vector2(2, 2)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_snlak"]
 render_priority = 0
 shader = ExtResource("4")
-shader_parameter/alpha = 0.0
+shader_parameter/alpha = null
 
 [node name="Staging" type="Node3D"]
 script = ExtResource("1")
