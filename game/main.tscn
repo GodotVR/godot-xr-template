@@ -6,5 +6,5 @@
 [node name="Main" instance=ExtResource("1")]
 main_scene = "res://game/levels/main_level/main_level.tscn"
 
-[node name="LoadingScreen" parent="." index="3"]
+[node name="LoadingScreen" parent="." index="2"]
 splash_screen = ExtResource("2")
