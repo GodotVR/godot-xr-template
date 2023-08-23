@@ -8,6 +8,9 @@ extends Area3D
 ## If true the zone switcher is enabled
 @export var enabled : bool = true
 
+## Name of the spawn-point node name in the target scene
+@export var spawn_node_name := ""
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -31,6 +34,6 @@ func _on_body_entered(body : Node3D):
 
 	# Fire the load_scene signal
 	if zone_scene == "":
-		scene_base.reset_scene()
+		scene_base.reset_scene(spawn_node_name)
 	else:
-		scene_base.load_scene(zone_scene)
+		scene_base.load_scene(zone_scene, spawn_node_name)
