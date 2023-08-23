@@ -1,0 +1,165 @@
+[gd_scene load_steps=20 format=3 uid="uid://h71bqvvu0lcn"]
+
+[ext_resource type="PackedScene" uid="uid://cvn48xcmsmkrb" path="res://game/zone_base.tscn" id="1_30op8"]
+[ext_resource type="Material" uid="uid://cqs6que52ytcg" path="res://assets/prototype_materials/dry_grass.tres" id="2_2nr20"]
+[ext_resource type="Environment" uid="uid://er867l7dl10j" path="res://default_env.tres" id="2_a5ktn"]
+[ext_resource type="Script" path="res://components/helpers/scatter.gd" id="3_dvyu5"]
+[ext_resource type="Material" uid="uid://c386ygo86nqfc" path="res://assets/prototype_materials/wood_brown.tres" id="4_j3su2"]
+[ext_resource type="Material" uid="uid://b1o2xnr4gi6r4" path="res://assets/prototype_materials/sandstone.tres" id="5_gh4so"]
+[ext_resource type="Material" uid="uid://cjylinr1vdjcw" path="res://assets/prototype_materials/dark_brown.tres" id="5_goc1s"]
+[ext_resource type="PackedScene" uid="uid://vm423o6hdlya" path="res://components/helpers/zone_switch_area.tscn" id="6_tlcot"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_tg51c"]
+material = ExtResource("2_2nr20")
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uk6lx"]
+size = Vector3(20, 1, 20)
+
+[sub_resource type="QuadMesh" id="QuadMesh_iva63"]
+material = ExtResource("2_2nr20")
+size = Vector2(20, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_db0th"]
+size = Vector3(20, 4, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_mdvnb"]
+material = ExtResource("5_gh4so")
+radius = 2.0
+height = 3.0
+radial_segments = 7
+rings = 4
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_on5hg"]
+points = PackedVector3Array(-0.82556, -0.463684, -1.71374, -0.82556, 0.463391, -1.71374, 0.825197, -0.463684, -1.71374, -0.510075, -1.21368, -1.05931, -1.14613, -1.21368, -0.26188, -1.85442, -0.463684, -0.423277, -0.510075, 1.21339, -1.05931, 0.825197, 0.463391, -1.71374, -1.85442, 0.463391, -0.423277, -1.14613, 1.21339, -0.26188, 1.85442, 0.463391, -0.423277, 1.85406, -0.463684, -0.423277, 1.14576, -1.21368, -0.26188, 0.509712, -1.21368, -1.05931, 0, -1.5, -0.000317931, -1.48739, -0.463684, 1.18574, -0.919225, -1.21368, 0.732693, 0, 1.5, -0.000317931, 0.509712, 1.21339, -1.05931, 1.14576, 1.21339, -0.26188, -1.48739, 0.463391, 1.18574, -0.919225, 1.21339, 0.732693, 0.918862, 1.21339, 0.732693, 1.48702, 0.463391, 1.18574, 1.48702, -0.463684, 1.18574, 0.918862, -1.21368, 0.732693, 0, -1.21368, 1.17547, 0, -0.463684, 1.90176, 0, 0.463391, 1.90211, 0, 1.21339, 1.17547)
+
+[sub_resource type="QuadMesh" id="QuadMesh_lmjaa"]
+size = Vector2(0.02, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k6snm"]
+cull_mode = 2
+albedo_color = Color(0.619608, 0.635294, 0.419608, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tq4y1"]
+material = ExtResource("5_goc1s")
+size = Vector3(1, 3, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dvkw1"]
+size = Vector3(1, 3, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g8b71"]
+size = Vector3(1, 3, 0.2)
+
+[node name="ZoneBase" instance=ExtResource("1_30op8")]
+
+[node name="World" type="Node3D" parent="." index="1"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World" index="0"]
+environment = ExtResource("2_a5ktn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" index="1"]
+transform = Transform3D(-0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, 0.5, -0.5, 0, 8, 0)
+
+[node name="Ground" type="StaticBody3D" parent="World" index="2"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Ground" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_tg51c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Ground" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_uk6lx")
+
+[node name="Boundary1" type="StaticBody3D" parent="World" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -10)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Boundary1" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("QuadMesh_iva63")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Boundary1" index="1"]
+shape = SubResource("BoxShape3D_db0th")
+
+[node name="Boundary2" type="StaticBody3D" parent="World" index="4"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 10, 2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Boundary2" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("QuadMesh_iva63")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Boundary2" index="1"]
+shape = SubResource("BoxShape3D_db0th")
+
+[node name="Boundary3" type="StaticBody3D" parent="World" index="5"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 2, 10)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Boundary3" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("QuadMesh_iva63")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Boundary3" index="1"]
+shape = SubResource("BoxShape3D_db0th")
+
+[node name="Boundary4" type="StaticBody3D" parent="World" index="6"]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -10, 2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Boundary4" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("QuadMesh_iva63")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Boundary4" index="1"]
+shape = SubResource("BoxShape3D_db0th")
+
+[node name="Stone1" type="StaticBody3D" parent="World" index="7"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.25, 0.933013, 0.258819, -0.0669873, -0.25, 0.965926, -7, -0.2, -7)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Stone1" index="0"]
+mesh = SubResource("SphereMesh_mdvnb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Stone1" index="1"]
+shape = SubResource("ConvexPolygonShape3D_on5hg")
+
+[node name="Stone2" type="StaticBody3D" parent="World" index="8"]
+transform = Transform3D(-0.0669873, -0.25, 0.965926, 0.25, 0.933013, 0.258819, -0.965926, 0.258819, -4.60787e-08, 7, -0.6, -7)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Stone2" index="0"]
+mesh = SubResource("SphereMesh_mdvnb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Stone2" index="1"]
+shape = SubResource("ConvexPolygonShape3D_on5hg")
+
+[node name="Grass1" type="Node3D" parent="World" index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("3_dvyu5")
+extend = Vector3(10, 0, 10)
+instance_count = 3000
+mesh = SubResource("QuadMesh_lmjaa")
+material_override = SubResource("StandardMaterial3D_k6snm")
+
+[node name="HouseEntrance" type="Node3D" parent="." index="2"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 8.6)
+
+[node name="Exterior" type="CSGPolygon3D" parent="HouseEntrance" index="0"]
+use_collision = true
+polygon = PackedVector2Array(-3, 0, -3, 3, 0, 5, 3, 3, 3, 0, 0.5, 0, 0.5, 3, -0.5, 3, -0.5, 0)
+material = ExtResource("4_j3su2")
+
+[node name="Door" type="StaticBody3D" parent="HouseEntrance" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HouseEntrance/Door" index="0"]
+mesh = SubResource("BoxMesh_tq4y1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HouseEntrance/Door" index="1"]
+shape = SubResource("BoxShape3D_dvkw1")
+
+[node name="EnterHouse" parent="." index="3" instance=ExtResource("6_tlcot")]
+zone_scene = "res://game/zones/house_interior/house_interior_zone.tscn"
+spawn_node_name = "FromBackYard"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnterHouse" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 8.7)
+shape = SubResource("BoxShape3D_g8b71")
+
+[node name="FromHouseInterior" type="Marker3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.6)

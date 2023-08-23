@@ -24,7 +24,6 @@ The following branches are in active development:
 This project uses the following assets:
  - [Godot XR Tools](https://godotengine.org/asset-library/asset/1515)
  - [OpenXR Loaders](https://github.com/GodotVR/godot_openxr_loaders)
- - [Kenney Prototype Textures](https://godotengine.org/asset-library/asset/780)
 
 
 # Getting Started
@@ -39,7 +38,7 @@ The game should be customized by:
  - Modifying the splash-screen texture to represent the game
  - Modifying the icon.png for the game
  - Add game state variables to the game_state.gd singleton class
- - Replacing the demo levels with levels suitable to the game
+ - Replacing the demo zones with zones suitable to the game
 
 
 # Exporting to Android

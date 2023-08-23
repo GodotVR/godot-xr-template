@@ -54,8 +54,8 @@ func _update_multimesh():
 	
 	multi_mesh.instance_count = instance_count
 	for i in instance_count:
-		var t : Transform3D
-		var s : float = randf_range(min_scale, max_scale)
+		var t := Transform3D()
+		var s := randf_range(min_scale, max_scale)
 		t.basis = Basis().rotated(Vector3.UP, randf_range(-PI, PI)).scaled(Vector3(s, s, s))
 		t.origin = Vector3(randf_range(-extend.x, extend.x), randf_range(-extend.y, extend.y), randf_range(-extend.z, extend.z))
 		multi_mesh.set_instance_transform(i, t)
