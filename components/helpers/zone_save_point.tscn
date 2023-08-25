@@ -1,0 +1,78 @@
+[gd_scene load_steps=13 format=3 uid="uid://dm2e4qfiy0v0a"]
+
+[ext_resource type="Script" path="res://components/helpers/zone_save_point.gd" id="1_hwwjp"]
+[ext_resource type="Texture2D" uid="uid://b28f4me1ublg4" path="res://assets/prototype_materials/pattern.png" id="2_2gaip"]
+[ext_resource type="Material" uid="uid://c386ygo86nqfc" path="res://assets/prototype_materials/wood_brown.tres" id="3_nemau"]
+[ext_resource type="PackedScene" uid="uid://cme66uldrjl2i" path="res://addons/godot-xr-tools/interactables/interactable_area_button.tscn" id="4_8b5h5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5lqxg"]
+albedo_color = Color(0.00784314, 0.615686, 0, 1)
+albedo_texture = ExtResource("2_2gaip")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7f0ok"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.4
+radial_segments = 8
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cxops"]
+albedo_texture = ExtResource("2_2gaip")
+metallic = 0.59
+roughness = 0.41
+uv1_scale = Vector3(1, 4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0273w"]
+size = Vector3(0.4, 0.04, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0tokh"]
+size = Vector3(0.4, 0.04, 0.3)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_62pep"]
+radius = 0.15
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wjqor"]
+top_radius = 0.075
+bottom_radius = 0.1
+height = 0.05
+radial_segments = 16
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lql4b"]
+albedo_color = Color(0.760784, 0.164706, 0.0823529, 1)
+albedo_texture = ExtResource("2_2gaip")
+
+[node name="ZoneSavePoint" type="Node3D"]
+script = ExtResource("1_hwwjp")
+saved_material = SubResource("StandardMaterial3D_5lqxg")
+
+[node name="Pole" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -0.75)
+mesh = SubResource("CylinderMesh_7f0ok")
+surface_material_override/0 = SubResource("StandardMaterial3D_cxops")
+
+[node name="Table" type="StaticBody3D" parent="Pole"]
+transform = Transform3D(1, 0, 0, 0, 0.929358, -0.369179, 0, 0.369179, 0.929358, 0, 0.702817, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Pole/Table"]
+mesh = SubResource("BoxMesh_0273w")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_nemau")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pole/Table"]
+shape = SubResource("BoxShape3D_0tokh")
+
+[node name="SaveButton" parent="Pole" instance=ExtResource("4_8b5h5")]
+transform = Transform3D(1, 0, 0, 0, 0.929358, -0.369179, 0, 0.369179, 0.929358, 0, 0.702817, 0)
+button = NodePath("Button")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pole/SaveButton"]
+shape = SubResource("SphereShape3D_62pep")
+
+[node name="Button" type="MeshInstance3D" parent="Pole/SaveButton"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0436053, -1.19209e-07)
+mesh = SubResource("CylinderMesh_wjqor")
+skeleton = NodePath("../../Table/Mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_lql4b")
+
+[connection signal="button_pressed" from="Pole/SaveButton" to="." method="_on_save_button_button_pressed"]

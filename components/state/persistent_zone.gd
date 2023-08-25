@@ -51,6 +51,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 func scene_loaded(user_data = null):
 	super(user_data)
 
+	# Store that this is now our current zone
+	WorldData.instance.set_value("current_zone_id", zone_id)
+
 	# Notify all "world_state" objects in the zone to load their state, and
 	# save the IDs for any that are ItemInstance in this zone.
 	var items_in_zone := {}

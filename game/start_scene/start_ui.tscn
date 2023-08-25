@@ -1,0 +1,107 @@
+[gd_scene load_steps=2 format=3 uid="uid://cl8q8f32imusk"]
+
+[ext_resource type="Script" path="res://game/start_scene/start_ui.gd" id="1_n87es"]
+
+[node name="StartUI" type="CenterContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_n87es")
+
+[node name="MainMenu" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="NewGameBtn" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "New game"
+
+[node name="LoadGameBtn" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Load game
+"
+
+[node name="OptionsBtn" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Options
+"
+
+[node name="ExitBtn" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Quit"
+
+[node name="NewGame" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="EasyBtn" type="Button" parent="NewGame"]
+layout_mode = 2
+text = "Easy
+"
+
+[node name="NormalBtn" type="Button" parent="NewGame"]
+layout_mode = 2
+text = "Normal"
+
+[node name="HardBtn" type="Button" parent="NewGame"]
+layout_mode = 2
+text = "Hard"
+
+[node name="BackBtn" type="Button" parent="NewGame"]
+layout_mode = 2
+text = "Back"
+
+[node name="LoadGame" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="LoadGame"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Load/Save Not Implemented in Demo"
+
+[node name="SaveList" type="ItemList" parent="LoadGame"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+auto_height = true
+item_count = 4
+item_0/text = "Save Slot - 1"
+item_1/text = "Save Slot - 2"
+item_2/text = "Save Slot - 3"
+item_3/text = "Save Slot - 4"
+
+[node name="StartBtn" type="Button" parent="LoadGame"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Start"
+
+[node name="BackBtn" type="Button" parent="LoadGame"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Back	"
+
+[node name="Options" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="BackBtn" type="Button" parent="Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Back	"
+
+[connection signal="pressed" from="MainMenu/NewGameBtn" to="." method="_on_new_game_btn_pressed"]
+[connection signal="pressed" from="MainMenu/LoadGameBtn" to="." method="_on_load_game_btn_pressed"]
+[connection signal="pressed" from="MainMenu/OptionsBtn" to="." method="_on_options_btn_pressed"]
+[connection signal="pressed" from="MainMenu/ExitBtn" to="." method="_on_exit_btn_pressed"]
+[connection signal="pressed" from="NewGame/EasyBtn" to="." method="_on_easy_btn_pressed"]
+[connection signal="pressed" from="NewGame/NormalBtn" to="." method="_on_normal_btn_pressed"]
+[connection signal="pressed" from="NewGame/HardBtn" to="." method="_on_hard_btn_pressed"]
+[connection signal="pressed" from="NewGame/BackBtn" to="." method="_on_back_btn_pressed"]
+[connection signal="pressed" from="LoadGame/StartBtn" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="LoadGame/BackBtn" to="." method="_on_back_btn_pressed"]
+[connection signal="pressed" from="Options/BackBtn" to="." method="_on_back_btn_pressed"]

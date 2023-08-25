@@ -1,23 +1,28 @@
-[gd_scene load_steps=14 format=3 uid="uid://b64v7w5y3yghi"]
+[gd_scene load_steps=19 format=3 uid="uid://b64v7w5y3yghi"]
 
-[ext_resource type="PackedScene" uid="uid://cvn48xcmsmkrb" path="res://game/zone_base.tscn" id="1_xyoun"]
-[ext_resource type="Script" path="res://game/zones/start/start_zone.gd" id="2_tmgp6"]
-[ext_resource type="Material" uid="uid://ccdofvku4c7w3" path="res://assets/prototype_materials/stone_grey.tres" id="3_p06cr"]
-[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="4_8rr5i"]
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_2sv0p"]
+[ext_resource type="Script" path="res://game/start_scene/start_scene.gd" id="2_mdrs4"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_du2hn"]
+[ext_resource type="Resource" uid="uid://cc6j5rc31eldu" path="res://game/zones/zone_database.tres" id="3_egb1r"]
+[ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_rfr2t"]
+[ext_resource type="Material" uid="uid://ccdofvku4c7w3" path="res://assets/prototype_materials/stone_grey.tres" id="3_uwduq"]
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="4_7pgy0"]
+[ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="5_5cr7c"]
+[ext_resource type="PackedScene" uid="uid://cl8q8f32imusk" path="res://game/start_scene/start_ui.tscn" id="5_grt1o"]
 
 [sub_resource type="Environment" id="Environment_oplr7"]
 ambient_light_source = 1
 reflected_light_source = 1
 
 [sub_resource type="QuadMesh" id="QuadMesh_vi1r3"]
-material = ExtResource("3_p06cr")
+material = ExtResource("3_uwduq")
 size = Vector2(12, 12)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3ap0s"]
 size = Vector3(12, 1, 12)
 
 [sub_resource type="QuadMesh" id="QuadMesh_l0e1e"]
-material = ExtResource("3_p06cr")
+material = ExtResource("3_uwduq")
 size = Vector2(12, 4)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_w6gh2"]
@@ -27,24 +32,38 @@ size = Vector3(12, 4, 1)
 resource_local_to_scene = true
 size = Vector2(3, 2)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_j0w5u"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_j2d3a"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_11vkm"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k1004"]
+transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_j0w5u")
+albedo_texture = SubResource("ViewportTexture_j2d3a")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iru2p"]
 resource_local_to_scene = true
 size = Vector3(3, 2, 0.02)
 
-[node name="StartZone" instance=ExtResource("1_xyoun")]
-script = ExtResource("2_tmgp6")
+[node name="StartZone" instance=ExtResource("1_2sv0p")]
+script = ExtResource("2_mdrs4")
+zone_database = ExtResource("3_egb1r")
 
 [node name="XROrigin3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_rfr2t")]
+
+[node name="FunctionPointer" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("3_du2hn")]
+show_laser = 2
+laser_length = 1
+
+[node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("5_5cr7c")]
+
+[node name="FunctionPointer" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("3_du2hn")]
+show_laser = 2
+laser_length = 1
 
 [node name="World" type="Node3D" parent="." index="1"]
 
@@ -116,62 +135,21 @@ mesh = SubResource("QuadMesh_vi1r3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_3ap0s")
 
-[node name="Screen" parent="." index="2" instance=ExtResource("4_8rr5i")]
+[node name="Screen" parent="." index="2" instance=ExtResource("4_7pgy0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)
-transparent = 0
+update_mode = 2
+throttle_fps = 15.0
 unshaded = true
 
-[node name="Viewport" parent="Screen" index="0"]
-transparent_bg = false
-
-[node name="MarginContainer" type="MarginContainer" parent="Screen/Viewport" index="0"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Screen/Viewport/MarginContainer" index="0"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 5
-
-[node name="Label" type="Label" parent="Screen/Viewport/MarginContainer/VBoxContainer" index="0"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "Load/Save Not Implemented in Demo"
-
-[node name="SaveList" type="ItemList" parent="Screen/Viewport/MarginContainer/VBoxContainer" index="1"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 20
-item_count = 4
-item_0/text = "Save Slot - 1"
-item_1/text = "Save Slot - 2"
-item_2/text = "Save Slot - 3"
-item_3/text = "Save Slot - 4"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Screen/Viewport/MarginContainer/VBoxContainer" index="2"]
-layout_mode = 2
-alignment = 1
-
-[node name="StartButton" type="Button" parent="Screen/Viewport/MarginContainer/VBoxContainer/HBoxContainer" index="0"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 25
-text = "Start"
+[node name="StartUI" parent="Screen/Viewport" index="0" instance=ExtResource("5_grt1o")]
 
 [node name="Screen" parent="Screen" index="1"]
 mesh = SubResource("QuadMesh_44p7b")
-surface_material_override/0 = SubResource("StandardMaterial3D_11vkm")
+surface_material_override/0 = SubResource("StandardMaterial3D_k1004")
 
 [node name="CollisionShape3D" parent="Screen/StaticBody3D" index="0"]
 shape = SubResource("BoxShape3D_iru2p")
 
-[connection signal="pressed" from="Screen/Viewport/MarginContainer/VBoxContainer/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="start_game" from="Screen/Viewport/StartUI" to="." method="_on_start_ui_start_game"]
 
 [editable path="Screen"]

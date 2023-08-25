@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="ZoneDatabase" load_steps=6 format=3 uid="uid://cc6j5rc31eldu"]
+
+[ext_resource type="Script" path="res://components/state/zone_database.gd" id="1_fm6ij"]
+[ext_resource type="Script" path="res://components/state/zone_info.gd" id="2_5aaor"]
+
+[sub_resource type="Resource" id="Resource_2isy5"]
+script = ExtResource("2_5aaor")
+zone_id = "zone_outside"
+instance_scene = "res://game/zones/outside/outside_zone.tscn"
+
+[sub_resource type="Resource" id="Resource_4xyon"]
+script = ExtResource("2_5aaor")
+zone_id = "zone_house_interior"
+instance_scene = "res://game/zones/house_interior/house_interior_zone.tscn"
+
+[sub_resource type="Resource" id="Resource_dcxce"]
+script = ExtResource("2_5aaor")
+zone_id = "zone_house_back_yard"
+instance_scene = "res://game/zones/house_back_yard/house_back_yard_zone.tscn"
+
+[resource]
+script = ExtResource("1_fm6ij")
+zones = Array[ExtResource("2_5aaor")]([SubResource("Resource_2isy5"), SubResource("Resource_4xyon"), SubResource("Resource_dcxce")])

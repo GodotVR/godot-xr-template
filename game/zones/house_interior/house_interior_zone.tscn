@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bsb7i42nbkdp2"]
+[gd_scene load_steps=35 format=3 uid="uid://bsb7i42nbkdp2"]
 
 [ext_resource type="PackedScene" uid="uid://cvn48xcmsmkrb" path="res://game/zone_base.tscn" id="1_4sjqh"]
 [ext_resource type="Environment" uid="uid://er867l7dl10j" path="res://default_env.tres" id="2_42k30"]
@@ -10,6 +10,7 @@
 [ext_resource type="Material" uid="uid://c7prktlpm7tmm" path="res://assets/prototype_materials/forest.tres" id="5_60arm"]
 [ext_resource type="Script" path="res://components/helpers/scatter.gd" id="6_sr5e8"]
 [ext_resource type="PackedScene" uid="uid://vm423o6hdlya" path="res://components/helpers/zone_switch_area.tscn" id="7_jpwgk"]
+[ext_resource type="PackedScene" uid="uid://dm2e4qfiy0v0a" path="res://components/helpers/zone_save_point.tscn" id="11_vm0jr"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_ss6of"]
 material = ExtResource("4_8oeg0")
@@ -383,3 +384,6 @@ shape = SubResource("BoxShape3D_rpfc0")
 
 [node name="FromBackYard" type="Marker3D" parent="." index="6"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -7.5)
+
+[node name="SavePoint" parent="." index="7" instance=ExtResource("11_vm0jr")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2, 0, 0)
