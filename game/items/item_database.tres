@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemDatabase" load_steps=4 format=3 uid="uid://cey0pttnjr2iq"]
+
+[ext_resource type="Script" path="res://components/state/item_database.gd" id="1_em17a"]
+[ext_resource type="Resource" uid="uid://bjewm2x0kyx28" path="res://game/items/rock_type.tres" id="1_k8k42"]
+[ext_resource type="Resource" uid="uid://dag4mhfys4x5d" path="res://game/items/crate_type.tres" id="2_ljn6d"]
+
+[resource]
+script = ExtResource("1_em17a")
+items = Array[Resource("res://components/state/item_type.gd")]([ExtResource("1_k8k42"), ExtResource("2_ljn6d")])

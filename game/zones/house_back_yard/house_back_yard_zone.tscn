@@ -1,9 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://h71bqvvu0lcn"]
+[gd_scene load_steps=22 format=3 uid="uid://h71bqvvu0lcn"]
 
 [ext_resource type="PackedScene" uid="uid://cvn48xcmsmkrb" path="res://game/zone_base.tscn" id="1_30op8"]
 [ext_resource type="Material" uid="uid://cqs6que52ytcg" path="res://assets/prototype_materials/dry_grass.tres" id="2_2nr20"]
 [ext_resource type="Environment" uid="uid://er867l7dl10j" path="res://default_env.tres" id="2_a5ktn"]
+[ext_resource type="Script" path="res://components/state/persistent_zone.gd" id="2_tptfo"]
 [ext_resource type="Script" path="res://components/helpers/scatter.gd" id="3_dvyu5"]
+[ext_resource type="Resource" uid="uid://cey0pttnjr2iq" path="res://game/items/item_database.tres" id="3_nbuck"]
 [ext_resource type="Material" uid="uid://c386ygo86nqfc" path="res://assets/prototype_materials/wood_brown.tres" id="4_j3su2"]
 [ext_resource type="Material" uid="uid://b1o2xnr4gi6r4" path="res://assets/prototype_materials/sandstone.tres" id="5_gh4so"]
 [ext_resource type="Material" uid="uid://cjylinr1vdjcw" path="res://assets/prototype_materials/dark_brown.tres" id="5_goc1s"]
@@ -51,6 +53,9 @@ size = Vector3(1, 3, 0.1)
 size = Vector3(1, 3, 0.2)
 
 [node name="ZoneBase" instance=ExtResource("1_30op8")]
+script = ExtResource("2_tptfo")
+zone_id = "zone_house_back_yard"
+item_database = ExtResource("3_nbuck")
 
 [node name="World" type="Node3D" parent="." index="1"]
 

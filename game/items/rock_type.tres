@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ItemType" load_steps=2 format=3 uid="uid://bjewm2x0kyx28"]
+
+[ext_resource type="Script" path="res://components/state/item_type.gd" id="1_dtjyn"]
+
+[resource]
+script = ExtResource("1_dtjyn")
+type_id = "rock_type"
+instance_scene = "res://game/items/rock.tscn"
