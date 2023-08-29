@@ -1,0 +1,33 @@
+[gd_scene load_steps=8 format=3 uid="uid://c4rpcr7s5pt3v"]
+
+[ext_resource type="PackedScene" uid="uid://cc2akik80xtnb" path="res://components/state/item_instance.tscn" id="1_87r61"]
+[ext_resource type="Material" uid="uid://ccdofvku4c7w3" path="res://assets/prototype_materials/stone_grey.tres" id="2_1ev3x"]
+[ext_resource type="Resource" uid="uid://bjewm2x0kyx28" path="res://game/items/rock_type.tres" id="2_53gts"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="3_08c2g"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="4_m4f38"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ys4vs"]
+points = PackedVector3Array(-0.11756, 0, -0.161803, -0.0831523, -0.106069, -0.114418, -0.190211, 0, 0.0617738, -0.0831523, 0.10604, -0.114418, 0.117523, 0, -0.161803, 0.083115, -0.106069, -0.114418, 1.49012e-08, -0.15, -2.60025e-05, -0.134503, -0.106069, 0.0436766, -0.134503, 0.10604, 0.0436766, 1.49012e-08, 0, 0.2, 1.49012e-08, 0.15, -2.60025e-05, 0.083115, 0.10604, -0.114418, 0.190211, 0, 0.0617738, 0.134466, -0.106069, 0.0436766, 1.49012e-08, -0.106069, 0.141388, 1.49012e-08, 0.10604, 0.141388, 0.134466, 0.10604, 0.0436766)
+
+[sub_resource type="SphereMesh" id="SphereMesh_xrq4h"]
+material = ExtResource("2_1ev3x")
+radius = 0.2
+height = 0.3
+radial_segments = 5
+rings = 3
+
+[node name="Rock" groups=["fits_in_pocket"] instance=ExtResource("1_87r61")]
+item_id = "rock_"
+item_type = ExtResource("2_53gts")
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("ConvexPolygonShape3D_ys4vs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("SphereMesh_xrq4h")
+
+[node name="GrabPointHandLeft" parent="." index="2" instance=ExtResource("3_08c2g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.045, -0.045)
+
+[node name="GrabPointHandRight" parent="." index="3" instance=ExtResource("4_m4f38")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.045, -0.045)

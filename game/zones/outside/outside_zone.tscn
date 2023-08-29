@@ -1,7 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://cjat5u6nsihgw"]
+[gd_scene load_steps=25 format=3 uid="uid://cjat5u6nsihgw"]
 
 [ext_resource type="PackedScene" uid="uid://cvn48xcmsmkrb" path="res://game/zone_base.tscn" id="1_sk0kv"]
+[ext_resource type="Script" path="res://components/state/persistent_zone.gd" id="2_4307f"]
 [ext_resource type="Material" uid="uid://csepeix2yvih" path="res://assets/prototype_materials/grass.tres" id="2_uryyw"]
+[ext_resource type="Resource" uid="uid://cey0pttnjr2iq" path="res://game/items/item_database.tres" id="3_h8oud"]
 [ext_resource type="Material" uid="uid://c7prktlpm7tmm" path="res://assets/prototype_materials/forest.tres" id="3_wfk2d"]
 [ext_resource type="Script" path="res://components/helpers/scatter.gd" id="4_v2d8i"]
 [ext_resource type="Material" uid="uid://c386ygo86nqfc" path="res://assets/prototype_materials/wood_brown.tres" id="4_yw2go"]
@@ -9,6 +11,8 @@
 [ext_resource type="Material" uid="uid://ccdofvku4c7w3" path="res://assets/prototype_materials/stone_grey.tres" id="6_y2a7s"]
 [ext_resource type="PackedScene" uid="uid://vm423o6hdlya" path="res://components/helpers/zone_switch_area.tscn" id="7_omnq0"]
 [ext_resource type="Environment" uid="uid://er867l7dl10j" path="res://default_env.tres" id="8_82q6b"]
+[ext_resource type="PackedScene" uid="uid://c4rpcr7s5pt3v" path="res://game/items/rock.tscn" id="12_cxbia"]
+[ext_resource type="PackedScene" uid="uid://dbepe4i2q62yy" path="res://game/items/crate.tscn" id="13_mtgv7"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_0144s"]
 material = ExtResource("2_uryyw")
@@ -52,6 +56,9 @@ size = Vector3(1, 3, 0.1)
 size = Vector3(1, 3, 0.2)
 
 [node name="OutsideZone" instance=ExtResource("1_sk0kv")]
+script = ExtResource("2_4307f")
+zone_id = "zone_outside"
+item_database = ExtResource("3_h8oud")
 
 [node name="World" type="Node3D" parent="." index="1"]
 
@@ -169,3 +176,19 @@ shape = SubResource("BoxShape3D_wdgkd")
 
 [node name="FromHouseInterior" type="Marker3D" parent="." index="4"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -7.6)
+
+[node name="Rock" parent="." index="5" instance=ExtResource("12_cxbia")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.02816, 0.159056, 5.29193)
+item_id = "rock_outside"
+
+[node name="Crate1" parent="." index="6" instance=ExtResource("13_mtgv7")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -6, 0.5, -8.6)
+item_id = "crate_outside_1"
+
+[node name="Crate2" parent="." index="7" instance=ExtResource("13_mtgv7")]
+transform = Transform3D(0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, -4.7, 0.5, -8.6)
+item_id = "crate_outside_2"
+
+[node name="Crate3" parent="." index="8" instance=ExtResource("13_mtgv7")]
+transform = Transform3D(1, 0, -2.23517e-08, 0, 1, 0, 2.23517e-08, 0, 1, -5.4, 1.5, -8.6)
+item_id = "crate_outside_3"
