@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bkvj83shnbfwl" path="res://assets/splash/splash.png" id="2"]
 
 [node name="Main" instance=ExtResource("1")]
-main_scene = "res://game/zones/start/start_zone.tscn"
+main_scene = "res://game/start_scene/start_scene.tscn"
 
 [node name="LoadingScreen" parent="." index="2"]
 splash_screen = ExtResource("2")

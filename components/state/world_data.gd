@@ -1,12 +1,14 @@
 class_name WorldData
-extends RefCounted
+extends Node
 
 
 ## World Data Object
 ##
 ## The WorldData object holds information about the world. This information can
 ## be stored to encrypted save-files, and then loaded back at a later time.
-
+##
+## It's assumed this (or an extended script) is instanced as a singleton,
+## preferably as an autoloaded script.
 
 ## Signal invoked before loading world-data
 signal world_loading
@@ -39,6 +41,7 @@ var _mutex := Mutex.new()
 ## used to encrypt save-files to protect against tampering. For debugging
 ## purposes an empty string can be used to write an unencrypted file.
 func _init(password : String):
+	instance = self
 	_password = password
 
 
@@ -104,11 +107,11 @@ func clear_all() -> void:
 
 
 ## This method loads the summary information for the saved world-data associated
-## with the specified [param name]. If the world-data does not exist then this
+## with the specified [param file_name]. If the world-data does not exist then this
 ## method returns null.
-func load_summary(name : String): # -> Variant
+func load_summary(file_name : String): # -> Variant
 	# Open the world-data save file for reading
-	var file := _open_file(name, FileAccess.READ)
+	var file := _open_file(file_name, FileAccess.READ)
 	if not file:
 		return null
 
@@ -120,15 +123,15 @@ func load_summary(name : String): # -> Variant
 	return summary
 
 
-## This method loads the world-data associated with the specified [param name].
+## This method loads the world-data associated with the specified [param file_name].
 ## If the world-data does not exist or is invalid then this method returns
 ## false.
-func load_file(name : String) -> bool:
+func load_file(file_name : String) -> bool:
 	# Report start of world-data loading
 	world_loading.emit()
 
 	# Open the world-data save file for reading
-	var file := _open_file(name, FileAccess.READ)
+	var file := _open_file(file_name, FileAccess.READ)
 	if not file:
 		return false
 
@@ -155,15 +158,15 @@ func load_file(name : String) -> bool:
 	return true
 
 
-## This method saves the world-data under the specified [param name]. If the 
-## save fails then this method returns false. The [param name] string must be a
+## This method saves the world-data under the specified [param file_name]. If the 
+## save fails then this method returns false. The [param file_name] string must be a
 ## legal part of a file name.
-func save_file(name : String, summary) -> bool:
+func save_file(file_name : String, summary) -> bool:
 	# Report start of world-data saving
 	world_saving.emit()
 
 	# Open the world-data save file for writing
-	var file := _open_file(name, FileAccess.WRITE)
+	var file := _open_file(file_name, FileAccess.WRITE)
 	if not file:
 		return false
 
@@ -184,14 +187,14 @@ func save_file(name : String, summary) -> bool:
 
 
 ## This method deletes the world-data associated with the specified
-## [param name]. If the world-data does not exist then this method returns
+## [param file_name]. If the world-data does not exist then this method returns
 ## false.
-static func delete_file(name : String) -> bool:
+static func delete_file(file_name : String) -> bool:
 	# Construct the file name
-	var file_name := "user://save_%s.data" % name
+	var file_path := "user://save_%s.data" % file_name
 
 	# Remove the file
-	return DirAccess.remove_absolute(file_name) == OK
+	return DirAccess.remove_absolute(file_path) == OK
 
 
 ## This method returns a list of the names of all the saved world-data
@@ -215,14 +218,14 @@ func list_saves() -> Array[String]:
 
 
 # Open a world-data save file.
-func _open_file(name : String, mode : FileAccess.ModeFlags) -> FileAccess:
+func _open_file(file_name : String, mode : FileAccess.ModeFlags) -> FileAccess:
 	# Construct the file name
-	var file_name := "user://save_%s.data" % name
+	var file_path := "user://save_%s.data" % file_name
 
 	# Warn about unencrypted save files for debugging
 	if _password == "":
-		push_warning("Unencrypted save file: ", file_name)
-		return FileAccess.open(file_name, mode)
+		push_warning("Unencrypted save file: ", file_path)
+		return FileAccess.open(file_path, mode)
 
 	# Handle encrypted file with password
-	return FileAccess.open_encrypted_with_pass(file_name, mode, _password)
+	return FileAccess.open_encrypted_with_pass(file_path, mode, _password)
