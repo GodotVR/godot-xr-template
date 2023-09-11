@@ -1,0 +1,94 @@
+[gd_scene load_steps=16 format=3 uid="uid://c33bpwxnrb0gr"]
+
+[ext_resource type="PackedScene" uid="uid://cc2akik80xtnb" path="res://components/persistent/persistent_item.tscn" id="1_y6luy"]
+[ext_resource type="PackedScene" uid="uid://d3w3e8ocyuq5l" path="res://assets/meshes/inventorys/boxed_toolbox.tscn" id="2_ja1ew"]
+[ext_resource type="Resource" uid="uid://c61hljsd7ejeo" path="res://game/items/toolbox/toolbox_type.tres" id="2_vckid"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="3_vbs1k"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="4_e0m8r"]
+[ext_resource type="PackedScene" uid="uid://qmejywplaagw" path="res://components/persistent/persistent_pocket.tscn" id="5_52y7n"]
+[ext_resource type="Animation" uid="uid://plad1r85f7ws" path="res://addons/godot-xr-tools/hands/animations/left/Grip.res" id="5_tfcf4"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="6_jm161"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="6_ur4rh"]
+[ext_resource type="Animation" uid="uid://ccds2u22gbxn7" path="res://addons/godot-xr-tools/hands/animations/right/Grip.res" id="8_3tlci"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bt734"]
+size = Vector3(0.4, 0.175, 0.2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_avjxc"]
+points = PackedVector3Array(0, 0.05, 0.0175, 0.1, -0.05, 0.0175, 0, 0.05, -0.0175, -0.1, -0.05, 0.0175, 0.1, -0.05, -0.0175, -0.1, -0.05, -0.0175)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_bi3ui"]
+points = PackedVector3Array(0, 0.05, 0.0175, 0.1, -0.05, 0.0175, 0, 0.05, -0.0175, -0.1, -0.05, 0.0175, 0.1, -0.05, -0.0175, -0.1, -0.05, -0.0175)
+
+[sub_resource type="Resource" id="Resource_vlsyk"]
+script = ExtResource("6_jm161")
+open_pose = ExtResource("5_tfcf4")
+closed_pose = ExtResource("5_tfcf4")
+
+[sub_resource type="Resource" id="Resource_1av4s"]
+script = ExtResource("6_jm161")
+open_pose = ExtResource("8_3tlci")
+closed_pose = ExtResource("8_3tlci")
+
+[node name="Toolbox" instance=ExtResource("1_y6luy")]
+item_id = "toolbox"
+item_type = ExtResource("2_vckid")
+
+[node name="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028, 0)
+shape = SubResource("BoxShape3D_bt734")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.18241, 0.110122, 0)
+shape = SubResource("ConvexPolygonShape3D_avjxc")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.182, 0.11, 0)
+shape = SubResource("ConvexPolygonShape3D_bi3ui")
+
+[node name="BoxedToolbox" parent="." index="3" instance=ExtResource("2_ja1ew")]
+
+[node name="GrabPointHandLeft" parent="." index="4" instance=ExtResource("3_vbs1k")]
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0.045, 0.045, 0.012)
+visible = true
+hand_pose = SubResource("Resource_vlsyk")
+
+[node name="GrabPointHandRight" parent="." index="5" instance=ExtResource("4_e0m8r")]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, -0.045, 0.045, 0.012)
+visible = true
+hand_pose = SubResource("Resource_1av4s")
+
+[node name="PersistentPocket1" parent="." index="6" instance=ExtResource("5_52y7n")]
+transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, -0.3, 0, 0.3, -1.31134e-08, -0.1, -0.028, 0.15)
+pocket_id = "toolbox_pocket_1"
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket1" index="2" instance=ExtResource("6_ur4rh")]
+
+[node name="PersistentPocket2" parent="." index="7" instance=ExtResource("5_52y7n")]
+transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, -0.3, 0, 0.3, -1.31134e-08, 0.1, -0.028, 0.15)
+pocket_id = "toolbox_pocket_2"
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket2" index="2" instance=ExtResource("6_ur4rh")]
+
+[node name="PersistentPocket3" parent="." index="8" instance=ExtResource("5_52y7n")]
+transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, 0.3, 0, -0.3, -1.31134e-08, -0.1, -0.028, -0.15)
+pocket_id = "toolbox_pocket_3"
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket3" index="2" instance=ExtResource("6_ur4rh")]
+
+[node name="PersistentPocket4" parent="." index="9" instance=ExtResource("5_52y7n")]
+transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, 0.3, 0, -0.3, -1.31134e-08, 0.1, -0.028, -0.15)
+pocket_id = "toolbox_pocket_4"
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket4" index="2" instance=ExtResource("6_ur4rh")]
+
+[node name="HighlightRing" parent="." index="10" instance=ExtResource("6_ur4rh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.135117, 0)

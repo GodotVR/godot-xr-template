@@ -1,7 +1,5 @@
 extends CenterContainer
 
-signal start_game
-
 @onready var save_list_node = $LoadGame/SaveList
 var save_list : Array
 
@@ -10,8 +8,8 @@ func _ready():
 	_set_pane(1)
 
 	# Get our list of save games
-	if WorldData.instance:
-		save_list = WorldData.instance.list_saves()
+	if PersistentWorld.instance:
+		save_list = PersistentWorld.instance.list_saves()
 
 		save_list_node.clear()
 		for entry in save_list:
@@ -42,19 +40,13 @@ func _on_exit_btn_pressed():
 # New game
 
 func _on_easy_btn_pressed():
-	GameState.new_game_state()
-	GameState.game_difficulty = GameState.GameDifficulty.GAME_EASY
-	emit_signal("start_game")
+	GameState.new_game(GameState.GameDifficulty.GAME_EASY)
 
 func _on_normal_btn_pressed():
-	GameState.new_game_state()
-	GameState.game_difficulty = GameState.GameDifficulty.GAME_NORMAL
-	emit_signal("start_game")
+	GameState.new_game(GameState.GameDifficulty.GAME_NORMAL)
 
 func _on_hard_btn_pressed():
-	GameState.new_game_state()
-	GameState.game_difficulty = GameState.GameDifficulty.GAME_HARD
-	emit_signal("start_game")
+	GameState.new_game(GameState.GameDifficulty.GAME_HARD)
 
 func _on_back_btn_pressed():
 	_set_pane(1)
@@ -70,8 +62,4 @@ func _on_start_button_pressed():
 
 		var save_name = save_list[selected_item]
 		print("Loading save: ", save_name)
-		if GameState.load_game_state(save_name):
-			emit_signal("start_game")
-
-	# If we get here we failed
-	# TODO do something to inform user?
+		GameState.load_game(save_name)

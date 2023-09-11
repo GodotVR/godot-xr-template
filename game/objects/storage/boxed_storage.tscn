@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://drc02f0wuae6e"]
+
+[ext_resource type="Material" uid="uid://cjylinr1vdjcw" path="res://assets/prototype_materials/dark_brown.tres" id="1_5abf6"]
+[ext_resource type="Material" uid="uid://b1o2xnr4gi6r4" path="res://assets/prototype_materials/sandstone.tres" id="2_4wpy8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8k3qs"]
+size = Vector3(1, 0.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_60kyu"]
+size = Vector3(0.95, 0.01, 0.45)
+
+[node name="BoxedStorage" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_8k3qs")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_5abf6")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.246036, 0)
+mesh = SubResource("BoxMesh_60kyu")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_4wpy8")

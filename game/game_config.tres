@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PersistentConfig" load_steps=5 format=3 uid="uid://byrlyyt1yaqqw"]
+
+[ext_resource type="Resource" uid="uid://5sqmlq5ruolr" path="res://game/items/item_database.tres" id="1_dqp41"]
+[ext_resource type="Script" path="res://components/persistent/persistent_config.gd" id="1_v8kip"]
+[ext_resource type="Resource" uid="uid://to5lown6orfd" path="res://game/zones/outside/outside_zone_info.tres" id="3_3swg4"]
+[ext_resource type="Resource" uid="uid://cx1d62bw62y0k" path="res://game/zones/zone_database.tres" id="4_y0ujg"]
+
+[resource]
+script = ExtResource("1_v8kip")
+save_file_password = ""
+zone_database = ExtResource("4_y0ujg")
+item_database = ExtResource("1_dqp41")
+starting_zone = ExtResource("3_3swg4")

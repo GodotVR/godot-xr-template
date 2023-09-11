@@ -1,15 +1,15 @@
-class_name ZoneDatabase
+class_name PersistentZoneDatabase
 extends Resource
 
 
-## Zone Database Resource
+## Persistent Zone Database Resource
 ##
-## This resource defines all [ZoneInfo] entries for our game.
+## This resource defines all [PersistentZoneInfo] entries for our game.
 ## This is used by our loading system to load the correct zone.
 
 
 ## This property is the array of supported zones
-@export var zones : Array[ZoneInfo] : set = _set_zones
+@export var zones : Array[PersistentZoneInfo] : set = _set_zones
 
 
 # Items cache
@@ -19,9 +19,9 @@ var _cache := {}
 var _cache_valid := false
 
 
-## This method get an [ZoneInfo] given its [param zone_id]. If no
-## corresponding [ZoneInfo] is found then this function returns null.
-func get_zone(zone_id : String) -> ZoneInfo:
+## This method get an [PersistentZoneInfo] given its [param zone_id]. If no
+## corresponding [PersistentZoneInfo] is found then this function returns null.
+func get_zone(zone_id : String) -> PersistentZoneInfo:
 	# Populate the cache if necessary
 	if not _cache_valid:
 		_populate_cache()
@@ -30,7 +30,7 @@ func get_zone(zone_id : String) -> ZoneInfo:
 
 
 # Handle setting the items
-func _set_zones(p_zones : Array[ZoneInfo]) -> void:
+func _set_zones(p_zones : Array[PersistentZoneInfo]) -> void:
 	# Save the new items
 	zones = p_zones
 

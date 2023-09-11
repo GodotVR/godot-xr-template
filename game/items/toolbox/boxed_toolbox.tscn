@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://d3w3e8ocyuq5l"]
+
+[ext_resource type="Material" uid="uid://cjylinr1vdjcw" path="res://assets/prototype_materials/dark_brown.tres" id="1_hcjd5"]
+[ext_resource type="Material" uid="uid://c386ygo86nqfc" path="res://assets/prototype_materials/wood_brown.tres" id="2_nd6ej"]
+[ext_resource type="Material" uid="uid://b1o2xnr4gi6r4" path="res://assets/prototype_materials/sandstone.tres" id="3_751ru"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6at8g"]
+size = Vector3(0.4, 0.175, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4x6yb"]
+size = Vector3(0.415, 0.015, 0.015)
+
+[sub_resource type="PrismMesh" id="PrismMesh_b8n6r"]
+size = Vector3(0.2, 0.1, 0.035)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5ti0d"]
+size = Vector3(0.3, 0.01, 0.175)
+
+[node name="BoxedToolbox" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0278689, 0)
+mesh = SubResource("BoxMesh_6at8g")
+surface_material_override/0 = ExtResource("1_hcjd5")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13549, 0)
+mesh = SubResource("BoxMesh_4x6yb")
+surface_material_override/0 = ExtResource("2_nd6ej")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.18241, 0.110122, 0)
+mesh = SubResource("PrismMesh_b8n6r")
+surface_material_override/0 = ExtResource("1_hcjd5")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.182, 0.11, 0)
+mesh = SubResource("PrismMesh_b8n6r")
+surface_material_override/0 = ExtResource("1_hcjd5")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0581902, 0)
+mesh = SubResource("BoxMesh_5ti0d")
+surface_material_override/0 = ExtResource("3_751ru")

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ItemType" load_steps=2 format=3 uid="uid://c61hljsd7ejeo"]
+
+[ext_resource type="Script" path="res://components/persistent/persistent_item_type.gd" id="1_54y5y"]
+
+[resource]
+script = ExtResource("1_54y5y")
+type_id = "toolbox"
+instance_scene = "res://game/items/toolbox/toolbox.tscn"

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ItemType" load_steps=2 format=3 uid="uid://bybqoawclvbw5"]
+
+[ext_resource type="Script" path="res://components/persistent/persistent_item_type.gd" id="1_nq2x7"]
+
+[resource]
+script = ExtResource("1_nq2x7")
+type_id = "backpack"
+instance_scene = "res://game/items/backpack/backpack.tscn"
