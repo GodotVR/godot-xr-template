@@ -1,0 +1,81 @@
+[gd_scene load_steps=16 format=3 uid="uid://87ayr1op44nh"]
+
+[ext_resource type="PackedScene" uid="uid://cc2akik80xtnb" path="res://components/persistent/persistent_item.tscn" id="1_62chp"]
+[ext_resource type="Resource" uid="uid://bybqoawclvbw5" path="res://game/items/backpack/backpack_type.tres" id="2_t0xmd"]
+[ext_resource type="PackedScene" uid="uid://cle28r34dsj5m" path="res://game/items/backpack/boxed_backpack.tscn" id="3_phepc"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="4_gyi5s"]
+[ext_resource type="Animation" uid="uid://plad1r85f7ws" path="res://addons/godot-xr-tools/hands/animations/left/Grip.res" id="4_iqsjp"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="5_l0b75"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="5_ne2cg"]
+[ext_resource type="PackedScene" uid="uid://dh8grd7s3n8kg" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_snap.tscn" id="6_n8c7u"]
+[ext_resource type="PackedScene" uid="uid://qmejywplaagw" path="res://components/persistent/persistent_pocket.tscn" id="6_whllu"]
+[ext_resource type="Animation" uid="uid://ccds2u22gbxn7" path="res://addons/godot-xr-tools/hands/animations/right/Grip.res" id="7_acm53"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="7_bllxq"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_lp6as"]
+points = PackedVector3Array(-0.2, -0.275, -0.125, -0.2, -0.275, 0.125, -0.2, 0.275, -0.125, 0.2, -0.275, -0.125, 0.2, -0.275, 0.125, -0.2, 0.275, 0.125, 0.2, 0.275, -0.125, 0.2, 0.275, 0.125)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wxdd7"]
+points = PackedVector3Array(-0.075, -0.2625, 0, -0.0649569, -0.2625, -0.0375, -0.0649569, -0.2625, 0.0374853, -0.075, 0.2625, 0, -0.0375, -0.2625, -0.0649569, -0.0649569, 0.2625, -0.0375, -0.0375, -0.2625, 0.0649422, -0.0649569, 0.2625, 0.0374853, 0, -0.2625, -0.075, -0.0375, 0.2625, -0.0649569, 0, -0.2625, 0.075, -0.0375, 0.2625, 0.0649422, 0.0375, -0.2625, -0.0649569, 0, 0.2625, -0.075, 0.0375, -0.2625, 0.0649422, 0, 0.2625, 0.075, 0.0649422, -0.2625, -0.0375147, 0.0375, 0.2625, -0.0649569, 0.0649422, -0.2625, 0.0374853, 0.0375, 0.2625, 0.0649422, 0.075, -0.2625, 0, 0.0649422, 0.2625, -0.0375147, 0.0649422, 0.2625, 0.0374853, 0.075, 0.2625, 0)
+
+[sub_resource type="Resource" id="Resource_yqryf"]
+script = ExtResource("5_ne2cg")
+open_pose = ExtResource("4_iqsjp")
+closed_pose = ExtResource("4_iqsjp")
+
+[sub_resource type="Resource" id="Resource_mvhry"]
+script = ExtResource("5_ne2cg")
+open_pose = ExtResource("7_acm53")
+closed_pose = ExtResource("7_acm53")
+
+[node name="Backpack" groups=["backpack"] instance=ExtResource("1_62chp")]
+item_id = "backpack"
+item_type = ExtResource("2_t0xmd")
+auto_return = true
+auto_return_timeout = 2.0
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("ConvexPolygonShape3D_lp6as")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, -0.280267, 0.178486)
+shape = SubResource("ConvexPolygonShape3D_wxdd7")
+
+[node name="BoxedBackpack" parent="." index="2" instance=ExtResource("3_phepc")]
+
+[node name="GrabPointHandLeft" parent="." index="3" instance=ExtResource("4_gyi5s")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.05, 0.3, 0.075)
+hand_pose = SubResource("Resource_yqryf")
+
+[node name="GrabPointHandRight" parent="." index="4" instance=ExtResource("5_l0b75")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.05, 0.3, 0.075)
+hand_pose = SubResource("Resource_mvhry")
+
+[node name="GrabPointSnap" parent="." index="5" instance=ExtResource("6_n8c7u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.1)
+
+[node name="BackPocket" parent="." index="6" instance=ExtResource("6_whllu")]
+transform = Transform3D(0.3, 0, 0, 0, 0.0520944, -0.295442, 0, 0.295442, 0.0520944, 0, -0.1, -0.25)
+pocket_id = "backpack_back_pocket"
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="BackPocket" index="2" instance=ExtResource("7_bllxq")]
+
+[node name="LeftPocket" parent="." index="7" instance=ExtResource("6_whllu")]
+transform = Transform3D(-1.31134e-08, 0.3, 0, -0.3, -1.31134e-08, 0, 0, 0, 0.3, 0.250293, 0, 0)
+pocket_id = "backpack_left_pocket"
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="LeftPocket" index="2" instance=ExtResource("7_bllxq")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="RightPocket" parent="." index="8" instance=ExtResource("6_whllu")]
+transform = Transform3D(-1.31134e-08, -0.3, 0, 0.3, -1.31134e-08, 0, 0, 0, 0.3, -0.25, 0, 0)
+pocket_id = "backpack_right_pocket"
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="RightPocket" index="2" instance=ExtResource("7_bllxq")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="HighlightRing" parent="." index="9" instance=ExtResource("7_bllxq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.1)

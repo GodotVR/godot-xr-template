@@ -1,9 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://b64v7w5y3yghi"]
+[gd_scene load_steps=17 format=3 uid="uid://b64v7w5y3yghi"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_2sv0p"]
-[ext_resource type="Script" path="res://game/start_scene/start_scene.gd" id="2_mdrs4"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_du2hn"]
-[ext_resource type="Resource" uid="uid://cc6j5rc31eldu" path="res://game/zones/zone_database.tres" id="3_egb1r"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_rfr2t"]
 [ext_resource type="Material" uid="uid://ccdofvku4c7w3" path="res://assets/prototype_materials/stone_grey.tres" id="3_uwduq"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="4_7pgy0"]
@@ -32,14 +30,14 @@ size = Vector3(12, 4, 1)
 resource_local_to_scene = true
 size = Vector2(3, 2)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_j2d3a"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_2wivy"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k1004"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tmib1"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_j2d3a")
+albedo_texture = SubResource("ViewportTexture_2wivy")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iru2p"]
@@ -47,8 +45,6 @@ resource_local_to_scene = true
 size = Vector3(3, 2, 0.02)
 
 [node name="StartZone" instance=ExtResource("1_2sv0p")]
-script = ExtResource("2_mdrs4")
-zone_database = ExtResource("3_egb1r")
 
 [node name="XROrigin3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
@@ -145,11 +141,9 @@ unshaded = true
 
 [node name="Screen" parent="Screen" index="1"]
 mesh = SubResource("QuadMesh_44p7b")
-surface_material_override/0 = SubResource("StandardMaterial3D_k1004")
+surface_material_override/0 = SubResource("StandardMaterial3D_tmib1")
 
 [node name="CollisionShape3D" parent="Screen/StaticBody3D" index="0"]
 shape = SubResource("BoxShape3D_iru2p")
-
-[connection signal="start_game" from="Screen/Viewport/StartUI" to="." method="_on_start_ui_start_game"]
 
 [editable path="Screen"]

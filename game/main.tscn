@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8wx3hdpdrw8p"]
+[gd_scene load_steps=4 format=3 uid="uid://c8wx3hdpdrw8p"]
 
-[ext_resource type="PackedScene" uid="uid://bnqnnnet4dw12" path="res://addons/godot-xr-tools/staging/staging.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://c2u2yasyfotxr" path="res://components/persistent/persistent_staging.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://bkvj83shnbfwl" path="res://assets/splash/splash.png" id="2"]
+[ext_resource type="Script" path="res://game/main.gd" id="2_dmefr"]
 
 [node name="Main" instance=ExtResource("1")]
+script = ExtResource("2_dmefr")
 main_scene = "res://game/start_scene/start_scene.tscn"
 
 [node name="LoadingScreen" parent="." index="2"]

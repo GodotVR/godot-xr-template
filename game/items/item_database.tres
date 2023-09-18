@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="ItemDatabase" load_steps=4 format=3 uid="uid://cey0pttnjr2iq"]
+[gd_resource type="Resource" script_class="PersistentItemDatabase" load_steps=6 format=3 uid="uid://5sqmlq5ruolr"]
 
-[ext_resource type="Script" path="res://components/state/item_database.gd" id="1_em17a"]
-[ext_resource type="Resource" uid="uid://bjewm2x0kyx28" path="res://game/items/rock_type.tres" id="1_k8k42"]
-[ext_resource type="Resource" uid="uid://dag4mhfys4x5d" path="res://game/items/crate_type.tres" id="2_ljn6d"]
+[ext_resource type="Resource" uid="uid://bybqoawclvbw5" path="res://game/items/backpack/backpack_type.tres" id="1_a6dgf"]
+[ext_resource type="Script" path="res://components/persistent/persistent_item_database.gd" id="1_em17a"]
+[ext_resource type="Resource" uid="uid://dag4mhfys4x5d" path="res://game/items/crate/crate_type.tres" id="2_3ixst"]
+[ext_resource type="Resource" uid="uid://bjewm2x0kyx28" path="res://game/items/rock/rock_type.tres" id="3_s3pwk"]
+[ext_resource type="Resource" uid="uid://c61hljsd7ejeo" path="res://game/items/toolbox/toolbox_type.tres" id="4_25idd"]
 
 [resource]
 script = ExtResource("1_em17a")
-items = Array[Resource("res://components/state/item_type.gd")]([ExtResource("1_k8k42"), ExtResource("2_ljn6d")])
+items = Array[Resource("res://components/persistent/persistent_item_type.gd")]([ExtResource("1_a6dgf"), ExtResource("2_3ixst"), ExtResource("3_s3pwk"), ExtResource("4_25idd")])

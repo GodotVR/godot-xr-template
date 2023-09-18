@@ -1,10 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://cc2akik80xtnb"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_2d7bx"]
-[ext_resource type="Script" path="res://components/state/item_instance.gd" id="2_xch64"]
+[ext_resource type="Script" path="res://components/persistent/persistent_item.gd" id="2_xch64"]
 
-[node name="ItemInstance" groups=["world_state"] instance=ExtResource("1_2d7bx")]
+[node name="ItemInstance" groups=["persistent"] instance=ExtResource("1_2d7bx")]
 script = ExtResource("2_xch64")
 item_id = ""
 item_type = null
 item_dynamic = false
+auto_return = false
+auto_return_timeout = 2.0

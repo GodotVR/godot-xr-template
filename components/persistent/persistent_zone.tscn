@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://di1bu0tceg332"]
+
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_rr08k"]
+[ext_resource type="Script" path="res://components/persistent/persistent_zone.gd" id="2_hkrv4"]
+
+[node name="PersistentZone" instance=ExtResource("1_rr08k")]
+script = ExtResource("2_hkrv4")
+zone_info = null
+item_database = null

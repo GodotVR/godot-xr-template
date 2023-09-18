@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ZoneInfo" load_steps=2 format=3 uid="uid://to5lown6orfd"]
+
+[ext_resource type="Script" path="res://components/persistent/persistent_zone_info.gd" id="1_ebey5"]
+
+[resource]
+script = ExtResource("1_ebey5")
+zone_id = "zone_outside"
+instance_scene = "res://game/zones/outside/outside_zone.tscn"

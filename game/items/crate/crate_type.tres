@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="ItemType" load_steps=2 format=3 uid="uid://dag4mhfys4x5d"]
 
-[ext_resource type="Script" path="res://components/state/item_type.gd" id="1_uqv6g"]
+[ext_resource type="Script" path="res://components/persistent/persistent_item_type.gd" id="1_uqv6g"]
 
 [resource]
 script = ExtResource("1_uqv6g")
 type_id = "crate_type"
-instance_scene = "res://game/items/crate.tscn"
+instance_scene = "res://game/items/crate/crate.tscn"

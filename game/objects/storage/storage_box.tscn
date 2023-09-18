@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3 uid="uid://chch4r7wddwdj"]
+
+[ext_resource type="PackedScene" uid="uid://drc02f0wuae6e" path="res://game/objects/storage/boxed_storage.tscn" id="1_gtbba"]
+[ext_resource type="PackedScene" uid="uid://qmejywplaagw" path="res://components/persistent/persistent_pocket.tscn" id="2_58j7k"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="3_ll6mm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s7ybo"]
+size = Vector3(1, 0.5, 0.5)
+
+[node name="StorageBox" type="StaticBody3D"]
+
+[node name="BoxedStorage" parent="." instance=ExtResource("1_gtbba")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("BoxShape3D_s7ybo")
+
+[node name="PersistentPocket1" parent="." instance=ExtResource("2_58j7k")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.3, 0.55, -0.1)
+pocket_id = "storage_slot_1"
+held_behavior = 0
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket1" instance=ExtResource("3_ll6mm")]
+
+[node name="PersistentPocket2" parent="." instance=ExtResource("2_58j7k")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.55, -0.1)
+pocket_id = "storage_slot_2"
+held_behavior = 0
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket2" instance=ExtResource("3_ll6mm")]
+
+[node name="PersistentPocket3" parent="." instance=ExtResource("2_58j7k")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.3, 0.55, -0.1)
+pocket_id = "storage_slot_3"
+held_behavior = 0
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket3" instance=ExtResource("3_ll6mm")]
+
+[node name="PersistentPocket4" parent="." instance=ExtResource("2_58j7k")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.3, 0.55, 0.1)
+pocket_id = "storage_slot_4"
+held_behavior = 0
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket4" instance=ExtResource("3_ll6mm")]
+
+[node name="PersistentPocket5" parent="." instance=ExtResource("2_58j7k")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.55, 0.1)
+pocket_id = "storage_slot_5"
+held_behavior = 0
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket5" instance=ExtResource("3_ll6mm")]
+
+[node name="PersistentPocket6" parent="." instance=ExtResource("2_58j7k")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.3, 0.55, 0.1)
+pocket_id = "storage_slot_6"
+held_behavior = 0
+grab_distance = 0.1
+snap_require = "fits_in_storage"
+
+[node name="HighlightRing" parent="PersistentPocket6" instance=ExtResource("3_ll6mm")]

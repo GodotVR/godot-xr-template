@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4rpcr7s5pt3v"]
+[gd_scene load_steps=14 format=3 uid="uid://c4rpcr7s5pt3v"]
 
-[ext_resource type="PackedScene" uid="uid://cc2akik80xtnb" path="res://components/state/item_instance.tscn" id="1_87r61"]
+[ext_resource type="PackedScene" uid="uid://cc2akik80xtnb" path="res://components/persistent/persistent_item.tscn" id="1_87r61"]
 [ext_resource type="Material" uid="uid://ccdofvku4c7w3" path="res://assets/prototype_materials/stone_grey.tres" id="2_1ev3x"]
-[ext_resource type="Resource" uid="uid://bjewm2x0kyx28" path="res://game/items/rock_type.tres" id="2_53gts"]
+[ext_resource type="Resource" uid="uid://bjewm2x0kyx28" path="res://game/items/rock/rock_type.tres" id="2_53gts"]
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="3_08c2g"]
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="4_m4f38"]
+[ext_resource type="Animation" uid="uid://bediglpx0rj7i" path="res://addons/godot-xr-tools/hands/animations/left/Grip 5.res" id="5_rtm64"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="6_34xyl"]
+[ext_resource type="Animation" uid="uid://s1vqcxyqcvea" path="res://addons/godot-xr-tools/hands/animations/right/Grip 5.res" id="8_kmf2q"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="9_kvg40"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ys4vs"]
 points = PackedVector3Array(-0.11756, 0, -0.161803, -0.0831523, -0.106069, -0.114418, -0.190211, 0, 0.0617738, -0.0831523, 0.10604, -0.114418, 0.117523, 0, -0.161803, 0.083115, -0.106069, -0.114418, 1.49012e-08, -0.15, -2.60025e-05, -0.134503, -0.106069, 0.0436766, -0.134503, 0.10604, 0.0436766, 1.49012e-08, 0, 0.2, 1.49012e-08, 0.15, -2.60025e-05, 0.083115, 0.10604, -0.114418, 0.190211, 0, 0.0617738, 0.134466, -0.106069, 0.0436766, 1.49012e-08, -0.106069, 0.141388, 1.49012e-08, 0.10604, 0.141388, 0.134466, 0.10604, 0.0436766)
@@ -16,7 +20,17 @@ height = 0.3
 radial_segments = 5
 rings = 3
 
-[node name="Rock" groups=["fits_in_pocket"] instance=ExtResource("1_87r61")]
+[sub_resource type="Resource" id="Resource_m0rx4"]
+script = ExtResource("6_34xyl")
+open_pose = ExtResource("5_rtm64")
+closed_pose = ExtResource("5_rtm64")
+
+[sub_resource type="Resource" id="Resource_vx8u2"]
+script = ExtResource("6_34xyl")
+open_pose = ExtResource("8_kmf2q")
+closed_pose = ExtResource("8_kmf2q")
+
+[node name="Rock" groups=["fits_in_pocket", "fits_in_storage"] instance=ExtResource("1_87r61")]
 item_id = "rock_"
 item_type = ExtResource("2_53gts")
 
@@ -28,6 +42,10 @@ mesh = SubResource("SphereMesh_xrq4h")
 
 [node name="GrabPointHandLeft" parent="." index="2" instance=ExtResource("3_08c2g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.045, -0.045)
+hand_pose = SubResource("Resource_m0rx4")
 
 [node name="GrabPointHandRight" parent="." index="3" instance=ExtResource("4_m4f38")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.045, -0.045)
+hand_pose = SubResource("Resource_vx8u2")
+
+[node name="HighlightRing" parent="." index="4" instance=ExtResource("9_kvg40")]
