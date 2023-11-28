@@ -42,6 +42,9 @@ func is_xr_class(name : String) -> bool:
 ## This function moves and slides along the [param move] vector. It returns
 ## information about the last collision, or null if no collision
 func move_and_slide(move : Vector3) -> ForceBodyCollision:
+	# Make sure this is off or weird shit happens...
+	sync_to_physics = false
+
 	# Loop performing the movement steps
 	var step_move := move
 	var ret : ForceBodyCollision = null

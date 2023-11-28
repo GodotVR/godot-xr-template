@@ -167,7 +167,7 @@ func _update_held_behavior() -> void:
 		return
 
 	# Test if the parent pickable is held
-	var is_held := is_instance_valid(_parent_body.picked_up_by)
+	var is_held := _parent_body.is_picked_up()
 
 	# Update the enabled state based on whether the parent body is held and
 	# the desired behavior

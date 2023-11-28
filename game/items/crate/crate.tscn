@@ -14,6 +14,7 @@ material = ExtResource("3_3s4ke")
 [node name="Crate" instance=ExtResource("1_j3qg2")]
 item_id = "crate_"
 item_type = ExtResource("2_26s4t")
+second_hand_grab = 1
 
 [node name="CollisionShape3D" parent="." index="0"]
 shape = SubResource("BoxShape3D_54n81")

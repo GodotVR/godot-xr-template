@@ -201,8 +201,8 @@ func _start_auto_return_timer() -> void:
 # Called when this object is picked up
 func _on_picked_up(_pickable) -> void:
 	# Save the last pocket
-	if picked_up_by is PersistentPocket:
-		_last_pocket = picked_up_by
+	if get_picked_up_by() is PersistentPocket:
+		_last_pocket = get_picked_up_by()
 
 	# Stop any auto-return timer
 	if _auto_return_timer:
