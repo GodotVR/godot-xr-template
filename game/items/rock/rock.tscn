@@ -33,6 +33,7 @@ closed_pose = ExtResource("8_kmf2q")
 [node name="Rock" groups=["fits_in_pocket", "fits_in_storage"] instance=ExtResource("1_87r61")]
 item_id = "rock_"
 item_type = ExtResource("2_53gts")
+second_hand_grab = 2
 
 [node name="CollisionShape3D" parent="." index="0"]
 shape = SubResource("ConvexPolygonShape3D_ys4vs")
