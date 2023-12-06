@@ -54,7 +54,7 @@ func scene_loaded(user_data = null):
 
 	# Find the zone items the PersistentWorld thinks should be in this zone.
 	var zone_items = PersistentWorld.instance.get_value(zone_info.zone_id)
-	
+
 	# Free items designed into the zone but PersistentWorld thinks should
 	# be removed.
 	if zone_items is Array:
@@ -102,7 +102,6 @@ func scene_exiting(user_data = null):
 
 	# Clear the current zone
 	GameState.current_zone = self
-	
 
 
 ## This method saves the state of the zone to the [PersistentWorld]. This gets
@@ -111,7 +110,7 @@ func scene_exiting(user_data = null):
 func save_world_state() -> void:
 	# Save world-state for all items in the zone
 	propagate_notification(Persistent.NOTIFICATION_SAVE_STATE)
-	
+
 	# Identify items held directly by the zone
 	var items_in_zone : Array[String] = []
 	for node in get_tree().get_nodes_in_group("persistent"):
@@ -193,7 +192,7 @@ func create_item_instance(item_id : String) -> PersistentItem:
 
 
 # This method returns true if the node is an item held by a zone rather than
-# being held by some sort of persistent object such as a PersistentPocket or 
+# being held by some sort of persistent object such as a PersistentPocket or
 # an XRToolsFunctionPickup.
 static func is_item_held_by_zone(node : Node) -> bool:
 	# Skip if not valid

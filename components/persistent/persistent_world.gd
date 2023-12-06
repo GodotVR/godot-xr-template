@@ -28,10 +28,6 @@ signal world_saving
 signal world_saved
 
 
-## Static instance of the world data
-static var instance : PersistentWorld = null
-
-
 @export_group("Persistence Settings")
 
 ## Password for encrypted save files
@@ -49,6 +45,10 @@ var _data := {}
 
 # Mutex protecting data
 var _mutex := Mutex.new()
+
+
+## Static instance of the world data
+static var instance : PersistentWorld = null
 
 
 # Check for configuration issues on this node
@@ -115,7 +115,7 @@ func clear_value(id : String) -> void:
 	_mutex.unlock()
 
 
-## This method clears all values matching the glob [param pattern]. See 
+## This method clears all values matching the glob [param pattern]. See
 ## [method String.match] for pattern matching rules.
 func clear_matching(pattern : String) -> void:
 	_mutex.lock()
