@@ -1,4 +1,5 @@
 # 4.2.0
+ - Upgrade to Godot 4.2
  - Upgrade Godot XR Tools to 4.3.0
  - Fixed minor compatibility breaks introduced with two-handed grabbing
  - Configured crate and rock for two-handed grabbing

@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://c33bpwxnrb0gr"]
 
 [ext_resource type="PackedScene" uid="uid://cc2akik80xtnb" path="res://components/persistent/persistent_item.tscn" id="1_y6luy"]
-[ext_resource type="PackedScene" uid="uid://d3w3e8ocyuq5l" path="res://assets/meshes/inventorys/boxed_toolbox.tscn" id="2_ja1ew"]
+[ext_resource type="PackedScene" uid="uid://d3w3e8ocyuq5l" path="res://game/items/toolbox/boxed_toolbox.tscn" id="2_ja1ew"]
 [ext_resource type="Resource" uid="uid://c61hljsd7ejeo" path="res://game/items/toolbox/toolbox_type.tres" id="2_vckid"]
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="3_vbs1k"]
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="4_e0m8r"]
