@@ -1,3 +1,16 @@
+# 4.3.3
+- Fix Viewport2Din3D property forwarding
+
+# 4.3.2
+- Move fade logic into effect
+- Added collision fade support
+- Added fix for slowly sliding on slopes
+- Added fix for ground-control preventing jumping over objects
+- Added property forwarding for Viewport2Din3D
+- Added fix for open/close poses
+- Added rumble manager for haptic feedback
+- Fix unreliable wall-walking collision
+
 # 4.3.1
 - Fix saving project when using plugin-tools to set physics layers or enable OpenXR
 - Fix updating the editor-preview hand-pose

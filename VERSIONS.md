@@ -1,3 +1,8 @@
+# 4.3.0
+ - Upgrade Godot XR Tools to 4.3.3
+ - Upgrade Godot OpenXR Vendors to 2.0.4
+ - Added WebXR Export
+
 # 4.2.0
  - Upgrade to Godot 4.2
  - Upgrade Godot XR Tools to 4.3.0
