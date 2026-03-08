@@ -1,0 +1,2 @@
+# Ignore godotopenxrvendors. The CI (and developer) installs this.
+godotopenxrvendors/

@@ -1,3 +1,8 @@
+# 4.4.0
+ - Upgrade Godot XR Tools to 4.4.0
+ - Add CI publish scripts
+ - Remove Godot OpenXR Vendors - installed by CI
+
 # 4.3.0
  - Upgrade Godot XR Tools to 4.3.3
  - Upgrade Godot OpenXR Vendors to 2.0.4

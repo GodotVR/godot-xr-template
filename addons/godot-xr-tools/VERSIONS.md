@@ -1,3 +1,17 @@
+# 4.4.0
+- Minimum Godot version changed to 4.2
+- Add pickable action_released signal
+- Fix custom hand poses calling legacy remove_animation
+- Cleaned up StartXR
+- Allow grab-points and poses to work with different types of hand trackers
+- Add end_xr support to StartXR
+- Fixed vignette shader
+- Add visibility_changed notifications to Viewport2Din3D hosted scenes
+- Invisible Viewport2Din3D now disable physics and viewport updates
+- Add SnapPath
+- Improvements to collision hands so collision shapes of picked up objects
+  are added and we no longer have hands collide with dropped objects
+
 # 4.3.3
 - Fix Viewport2Din3D property forwarding
 

@@ -24,7 +24,7 @@ The following branches are in active development:
 
 This project uses the following assets:
  - [Godot XR Tools](https://godotengine.org/asset-library/asset/1515)
- - [OpenXR Loaders](https://github.com/GodotVR/godot_openxr_loaders)
+ - [OpenXR Vendors](https://github.com/GodotVR/godot_openxr_vendors)
 
 
 # Getting Started

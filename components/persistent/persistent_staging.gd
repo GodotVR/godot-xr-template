@@ -9,7 +9,7 @@ static var instance : PersistentStaging
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(p_name : String) -> bool:
-	return p_name == "PersistentStaging"
+	return p_name == "PersistentStaging" or super(p_name)
 
 
 # Called when the node enters the scene tree for the first time.

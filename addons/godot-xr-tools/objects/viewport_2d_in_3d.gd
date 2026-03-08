@@ -1,4 +1,5 @@
 @tool
+class_name XRToolsViewport2DIn3D
 extends Node3D
 
 
@@ -121,12 +122,20 @@ var _screen_material : StandardMaterial3D
 var _dirty := _DIRTY_ALL
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(p_name : String) -> bool:
+	return p_name == "XRToolsViewport2DIn3D"
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	is_ready = true
 
 	# Listen for pointer events on the screen body
 	$StaticBody3D.connect("pointer_event", _on_pointer_event)
+
+	# Update enabled based on visibility
+	visibility_changed.connect(_on_visibility_changed)
 
 	# Apply physics properties
 	_update_screen_size()
@@ -334,6 +343,19 @@ func _process(delta):
 		set_process(false)
 
 
+# Handle visibility changed
+func _on_visibility_changed() -> void:
+	# Fire visibility changed in scene
+	if scene_node:
+		scene_node.propagate_notification(
+			CanvasItem.NOTIFICATION_VISIBILITY_CHANGED)
+
+	# Update collision and rendering based on visibility
+	_update_enabled()
+	_dirty |= _DIRTY_UPDATE
+	_update_render()
+
+
 ## Set screen size property
 func set_screen_size(new_size: Vector2) -> void:
 	screen_size = new_size
@@ -436,7 +458,7 @@ func _update_enabled() -> void:
 	if Engine.is_editor_hint():
 		return
 
-	$StaticBody3D/CollisionShape3D.disabled = !enabled
+	$StaticBody3D/CollisionShape3D.disabled = !enabled or not is_visible_in_tree()
 
 
 # Collision layer update handler
@@ -536,7 +558,7 @@ func _update_render() -> void:
 			# Update once. Process function used for editor refreshes
 			$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 			set_process(true)
-		elif update_mode == UpdateMode.UPDATE_ONCE:
+		elif update_mode == UpdateMode.UPDATE_ONCE or not is_visible_in_tree():
 			# Update once. Process function not used
 			$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 			set_process(false)

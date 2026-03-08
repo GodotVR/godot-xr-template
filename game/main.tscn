@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bkvj83shnbfwl" path="res://assets/splash/splash.png" id="2"]
 [ext_resource type="Script" path="res://game/main.gd" id="2_dmefr"]
 
-[node name="Main" instance=ExtResource("1")]
+[node name="MainStaging" instance=ExtResource("1")]
 script = ExtResource("2_dmefr")
 main_scene = "res://game/start_scene/start_scene.tscn"
 
