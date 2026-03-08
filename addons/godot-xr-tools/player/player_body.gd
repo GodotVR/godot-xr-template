@@ -77,6 +77,14 @@ const NEAR_GROUND_DISTANCE := 1.0
 ## Mix factor for body orientation
 @export_range(0.0, 1.0) var body_forward_mix : float = 0.75
 
+## Maximum distance the head may move away from the player body
+@export_range(0.0, 2.0, 0.01) var max_head_distance = 1.0
+
+## Behaviour mode when players head collides, or moves beyond [member max_head_distance].
+## Push away, pushes the player body away.
+## Fade, fades view to black.
+@export_enum("Push away", "Fade", "Disabled") var head_behavior_mode = 1
+
 @export_group("Collisions")
 
 ## Lets the player push rigid bodies
@@ -169,6 +177,11 @@ var _head_shape_cast : ShapeCast3D
 # True while we're handling physics
 var _in_physics_movement : bool = false
 
+# Fade object
+var _fade : XRToolsFade
+
+# Fade value
+var _fade_value : float = 0.0
 
 ## XROrigin3D node
 @onready var origin_node : XROrigin3D = XRHelpers.get_xr_origin(self)
@@ -192,15 +205,23 @@ func sort_by_order(a, b) -> bool:
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsPlayerBody"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsPlayerBody"
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Set as toplevel means our PlayerBody is positioned in global space.
-	# It is not moved when its parent moves.
-	set_as_top_level(true)
+	if Engine.is_editor_hint():
+		# In editing, keep player body linked to our origin
+		set_as_top_level(false)
+		transform = Transform3D()
+	else:
+		# Set as toplevel means our PlayerBody is positioned in global space.
+		# It is not moved when its parent moves.
+		set_as_top_level(true)
+		if get_parent():
+			# Make sure we're positioned correctly at the start.
+			global_transform = get_parent().global_transform
 
 	# Create our collision shape, height will be updated later
 	var capsule = CapsuleShape3D.new()
@@ -214,6 +235,7 @@ func _ready():
 	# Create the shape-cast for head collisions
 	_head_shape_cast = ShapeCast3D.new()
 	_head_shape_cast.enabled = false
+	_head_shape_cast.exclude_parent = true
 	_head_shape_cast.margin = 0.01
 	_head_shape_cast.collision_mask = collision_mask
 	_head_shape_cast.max_results = 1
@@ -244,19 +266,23 @@ func _update_enabled() -> void:
 	if enabled:
 		set_physics_process(true)
 
+
 func set_player_radius(new_value: float) -> void:
 	player_radius = new_value
 	if is_inside_tree():
 		_update_player_radius()
 
+
 func _update_player_radius() -> void:
 	if _collision_node and _collision_node.shape:
 		_collision_node.shape.radius = player_radius
+
 
 func set_physics(new_value: XRToolsGroundPhysicsSettings) -> void:
 	# Save the property
 	physics = new_value
 	default_physics = _guaranteed_physics()
+
 
 func _physics_process(delta: float):
 	# Do not run physics if in the editor
@@ -345,6 +371,7 @@ func _physics_process(delta: float):
 	# And we're done!
 	_in_physics_movement = false
 
+
 ## Teleport the player body.
 ## This moves the player without checking for collisions.
 func teleport(target : Transform3D) -> void:
@@ -399,7 +426,7 @@ func request_jump(skip_jump_velocity := false):
 func move_player(p_velocity: Vector3) -> Vector3:
 	velocity = p_velocity
 	max_slides = 4
-	up_direction = ground_vector
+	up_direction = up_gravity
 
 	# Get the player body location before we apply our movement.
 	var transform_before_movement : Transform3D = global_transform
@@ -486,12 +513,14 @@ func slew_up(up: Vector3, slew: float) -> void:
 	# Update the origin
 	origin_node.global_transform = new_origin
 
+
 ## This method calibrates the players height on the assumption
 ## the player is in rest position
 func calibrate_player_height():
 	var base_height = camera_node.transform.origin.y + (player_head_height * XRServer.world_scale)
 	var player_height = XRToolsUserSettings.player_height * XRServer.world_scale
 	player_height_offset = (player_height - base_height) / XRServer.world_scale
+
 
 ## This method sets or clears a named height override
 func override_player_height(key, value: float = -1.0):
@@ -511,11 +540,12 @@ func override_player_height(key, value: float = -1.0):
 		# Disable height override
 		_player_height_override_enabled = false
 
+
 # Estimate body forward direction
 func _estimate_body_forward_dir() -> Vector3:
 	var forward = Vector3()
 	var camera_basis : Basis = camera_node.global_transform.basis
-	var camera_forward : Vector3 = -camera_basis.z;
+	var camera_forward : Vector3 = -camera_basis.z
 
 	var camera_elevation := camera_forward.dot(up_player)
 	if camera_elevation > 0.75:
@@ -545,6 +575,7 @@ func _estimate_body_forward_dir() -> Vector3:
 
 	return forward
 
+
 # This method updates the player body to match the player position
 func _update_body_under_camera(delta : float):
 	# Initially calibration of player height
@@ -552,10 +583,13 @@ func _update_body_under_camera(delta : float):
 		calibrate_player_height()
 		player_calibrate_height = false
 
+	var adj_player_radius = player_radius * XRServer.world_scale
+	var adj_player_head_height = player_head_height * XRServer.world_scale
+
 	# Calculate the player height based on the camera position in the origin and the calibration
 	var player_height: float = clamp(
 			camera_node.transform.origin.y
-					+ (player_head_height * XRServer.world_scale)
+					+ adj_player_head_height
 					+ (player_height_offset * XRServer.world_scale),
 			player_height_min * XRServer.world_scale,
 			player_height_max * XRServer.world_scale)
@@ -596,7 +630,7 @@ func _update_body_under_camera(delta : float):
 		_player_height_override_lerp)
 
 	# Ensure player height makes mathematical sense
-	player_height = max(player_height, player_radius)
+	player_height = max(player_height, adj_player_radius)
 
 	# Test if the player is trying to get taller
 	var current_height : float = _collision_node.shape.height
@@ -611,15 +645,15 @@ func _update_body_under_camera(delta : float):
 		# ceiling.
 		var reduced_height : float = max(
 			current_height - 0.1,
-			player_radius)
+			adj_player_radius)
 
 		# Calculate how much we want to grow to hit the target height
 		var grow := target_height - reduced_height
 
 		# Cast the virtual head up from the reduced-height position up to the
 		# target height to check for ceiling collisions.
-		_head_shape_cast.shape.radius = player_radius
-		_head_shape_cast.transform.origin.y = reduced_height - player_radius
+		_head_shape_cast.shape.radius = adj_player_radius
+		_head_shape_cast.transform.origin.y = reduced_height - adj_player_radius
 		_head_shape_cast.collision_mask = collision_mask
 		_head_shape_cast.target_position = Vector3.UP * grow
 		_head_shape_cast.force_shapecast_update()
@@ -632,25 +666,98 @@ func _update_body_under_camera(delta : float):
 			current_height)
 
 	# Adjust the collision shape to match the player geometry
-	_collision_node.shape.radius = player_radius
+	_collision_node.shape.radius = adj_player_radius
 	_collision_node.shape.height = player_height
 	_collision_node.transform.origin.y = (player_height / 2.0)
 
 	# Center the kinematic body on the ground under the camera
-	var curr_transform := global_transform
+	var target_transform := global_transform
 	var camera_transform := camera_node.global_transform
-	curr_transform.basis = origin_node.global_transform.basis
-	curr_transform.origin = camera_transform.origin
-	curr_transform.origin += up_player * (player_head_height - player_height)
+	target_transform.basis = origin_node.global_transform.basis
+	target_transform.origin = camera_transform.origin
+	target_transform.origin += up_player * (adj_player_head_height - player_height)
 
 	# The camera/eyes are towards the front of the body, so move the body back slightly
 	var forward_dir := _estimate_body_forward_dir()
 	if forward_dir.length() > 0.01:
-		curr_transform = curr_transform.looking_at(curr_transform.origin + forward_dir, up_player)
-		curr_transform.origin -= forward_dir.normalized() * eye_forward_offset * player_radius
+		target_transform = target_transform.looking_at(target_transform.origin + forward_dir, up_player)
+		target_transform.origin -= forward_dir.normalized() * eye_forward_offset * adj_player_radius
 
-	# Set the body position
-	global_transform = curr_transform
+	# If head behavior is disabled, just move
+	if head_behavior_mode == 2:
+		global_transform = target_transform
+		return
+
+	# Apply rotation
+	global_basis = target_transform.basis
+
+	# Always apply height
+	global_position += (target_transform.origin - global_position).project(global_basis.y)
+
+	# But do lateral movement with move and collide
+	var body_movement = target_transform.origin - global_position
+
+	var collision : KinematicCollision3D = move_and_collide(body_movement)
+	var fade : bool = false
+	if collision and collision.get_collision_count() > 0:
+		var camera_local_transform = global_transform.inverse() * camera_node.global_transform
+		var camera_local_position = camera_local_transform.origin
+
+		# Move it to our head center
+		camera_local_position += camera_local_transform.basis.z * eye_forward_offset * adj_player_radius
+
+		# If we can't move here, check if our head can move
+		_head_shape_cast.shape.radius = adj_player_head_height
+		_head_shape_cast.transform.origin.y = player_height - adj_player_head_height
+		_head_shape_cast.collision_mask = collision_mask
+		_head_shape_cast.target_position = (camera_local_position - _head_shape_cast.transform.origin) * Vector3(1.0, 0.0, 1.0)
+
+		var target_move_distance = _head_shape_cast.target_position.length()
+
+		# Cast shape
+		_head_shape_cast.force_shapecast_update()
+
+		# See how far we can move
+		var safe := min(_head_shape_cast.get_closest_collision_safe_fraction(), max_head_distance / target_move_distance)
+		if safe < 1.0:
+			# print("Attempted to move head from ", _head_shape_cast.transform.origin, " to ", camera_local_position, " => ", _head_shape_cast.target_position, ", safe: ", safe)
+
+			if head_behavior_mode == 0:
+				# Push body back, we actually move our player body into the collision,
+				# by the amount of movement left after the collision.
+				# Then in our actual move and slide we'll get pushed out.
+				# Do note that safe isn't super accurate.
+				var push_back_by = body_movement * (1.0 - safe)
+				global_position += push_back_by
+			else:
+				# Fade to black
+				fade = true
+
+	if fade:
+		if not _fade:
+			# Use global fade if we have one
+			_fade = XRToolsFade.get_fade_node()
+			if not _fade:
+				# Else create a local instance
+				var fade_scene : PackedScene = load("res://addons/godot-xr-tools/effects/fade.tscn")
+				_fade = fade_scene.instantiate()
+				add_child(_fade, false, Node.INTERNAL_MODE_BACK)
+
+		_fade_value = max(_fade_value + delta * 3.0, 0.0)
+
+		_fade.set_fade_level(self, Color(0, 0, 0, _fade_value))
+	elif _fade and _fade_value > 0.0:
+		_fade_value = max(_fade_value - delta * 3.0, 0.0)
+
+		_fade.set_fade_level(self, Color(0, 0, 0, _fade_value))
+
+
+# Called when we're removed from the scene tree
+func _exit_tree():
+	if _fade:
+		# Just in case our fade was global, make sure we clean up.
+		_fade.set_fade_level(self, Color(0 ,0 ,0 ,0 ))
+
 
 # This method updates the information about the ground under the players feet
 func _update_ground_information(delta: float):
@@ -789,6 +896,7 @@ func _apply_velocity_and_control(delta: float):
 	#if abs(velocity.y) < 0.001:
 	#	velocity.y = ground_velocity.y
 
+
 # Test if the player can apply ground control given the settings and the ground state.
 func _can_apply_ground_control() -> bool:
 	match ground_control:
@@ -804,6 +912,7 @@ func _can_apply_ground_control() -> bool:
 		_:
 			return false
 
+
 # Get a guaranteed-valid physics
 func _guaranteed_physics():
 	# Ensure we have a guaranteed-valid XRToolsGroundPhysicsSettings value
@@ -814,6 +923,7 @@ func _guaranteed_physics():
 
 	# Return the guaranteed-valid physics
 	return valid_physics
+
 
 # This method verifies the XRToolsPlayerBody has a valid configuration. Specifically it
 # checks the following:
@@ -846,6 +956,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 	if player_height_max < player_height_min:
 		warnings.append("Player height maximum cannot be smaller than minimum")
 
+	if head_behavior_mode == 1 and player_radius <= player_head_height:
+		warnings.append("When using fade mode, player radius should be larger than head height")
+
 	# Verify eye-forward does not allow near-clip-plane look through
 	var eyes_to_collider = (1.0 - eye_forward_offset) * player_radius
 	if test_camera_node and eyes_to_collider < test_camera_node.near:
@@ -858,6 +971,16 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 	# Return warnings
 	return warnings
+
+
+# Check property config
+func _validate_property(property):
+	if property.name == "position" or property.name == "rotation" or property.name == "scale" \
+		or property.name == "rotation_edit_mode" or property.name == "rotation_order" \
+		or property.name == "top_level":
+		# We control these, don't let the user set them.
+		property.usage = PROPERTY_USAGE_NONE
+
 
 ## Find an [XRToolsPlayerBody] node.
 ##

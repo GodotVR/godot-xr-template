@@ -23,8 +23,8 @@ var _queues: Dictionary = {}
 
 
 ## Add support for is_xr_class
-func is_xr_class(p_name: String) -> bool:
-	return p_name == "XRToolsRumbleManager"
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsRumbleManager"
 
 
 ## Get the default Haptics Scale value
@@ -100,7 +100,7 @@ func _process(delta: float) -> void:
 		magnitude *= XRToolsUserSettings.haptics_scale
 
 		# Make that tracker rumble
-		if magnitude > 0:
+		if magnitude > 0 and XRServer.primary_interface:
 			XRServer.primary_interface.trigger_haptic_pulse(
 				HAPTIC_ACTION,
 				tracker_name, # if the tracker name isn't valid, it will error but continue

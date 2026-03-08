@@ -21,14 +21,25 @@ var _contact : Node3D = null
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsPokeBody" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsPokeBody" or super(xr_name)
+
+
+func _validate_property(property):
+	if property.name == "top_level":
+		property.usage = PROPERTY_USAGE_NONE
 
 
 func _ready():
 	# Do not initialise if in the editor
 	if Engine.is_editor_hint():
+		# In editor, show it at its start location
+		top_level = false
+		transform = Transform3D()
 		return
+
+	# In runtime, we control the position
+	top_level = true
 
 	# Connect to player body signals (if applicable)
 	var player_body = XRToolsPlayerBody.find_instance(self)

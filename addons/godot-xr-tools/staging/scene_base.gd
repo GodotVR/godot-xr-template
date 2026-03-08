@@ -35,7 +35,7 @@ signal request_reset_scene(user_data)
 signal request_quit
 
 
-# This file contains methods with parameters that are unused; however they are
+# This file contains methods with parameters that are unused, however they are
 # documented and intended to be overridden in derived classes. As such unused
 # parameter warnings need to be disabled.
 #
@@ -50,8 +50,8 @@ func _ready() -> void:
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsSceneBase"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsSceneBase"
 
 
 ## This method center the player on the [param p_transform] transform.
@@ -75,6 +75,11 @@ func center_player_on(p_transform : Transform3D):
 
 	# And now update our origin point
 	$XROrigin3D.global_transform = (p_transform * transform.inverse()).orthonormalized()
+
+	# If we have a player body, we need to set its starting position too.
+	var player_body : XRToolsPlayerBody = XRToolsPlayerBody.find_instance($XROrigin3D)
+	if player_body:
+		player_body.global_transform = p_transform
 
 
 ## This method is called when the scene is loaded, but before it becomes visible.

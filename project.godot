@@ -8,18 +8,22 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Godot XR Template"
 run/main_scene="res://game/main.tscn"
-config/features=PackedStringArray("4.2")
+config/features=PackedStringArray("4.6")
 config/icon="res://icon.png"
 
 [autoload]
 
-XRToolsUserSettings="*res://addons/godot-xr-tools/user_settings/user_settings.gd"
+XRToolsUserSettings="*uid://bqgb8i74tm0t"
 GameState="*res://game/game_state.tscn"
-XRToolsRumbleManager="*res://addons/godot-xr-tools/rumble/rumble_manager.gd"
+XRToolsRumbleManager="*uid://by853dk86g1qw"
 
 [editor_plugins]
 
@@ -54,6 +58,7 @@ common/drop_mouse_on_gui_input_disabled=true
 
 [physics]
 
+3d/physics_engine="GodotPhysics3D"
 3d/solver/contact_max_allowed_penetration=0.001
 
 [rendering]
@@ -66,4 +71,7 @@ environment/defaults/default_environment="res://default_env.tres"
 [xr]
 
 openxr/enabled=true
+openxr/foveation_level=3
+openxr/foveation_dynamic=true
 shaders/enabled=true
+openxr/extensions/meta/color_space/starting_color_space=3

@@ -15,7 +15,8 @@ Official releases are tagged and can be found [here](https://github.com/GodotVR/
 The following branches are in active development:
 |  Branch  |  Description                  |  Godot version  |
 |----------|-------------------------------|-----------------|
-|   main   | Current development branch    |  Godot 4.2+     |
+|   main   | Current development branch    |  Godot 4.6+     |
+|    4.2   | Godot 4.2 development branch  |  Godot 4.2-4.5  |
 |    4.1   | Godot 4.1 development branch  |  Godot 4.1      |
 |    3.x   | Godot 3.x development branch  |  Godot 3.5+     |
 
@@ -26,6 +27,10 @@ This project uses the following assets:
  - [Godot XR Tools](https://godotengine.org/asset-library/asset/1515)
  - [OpenXR Vendors](https://github.com/GodotVR/godot_openxr_vendors)
 
+> [!NOTE]
+> OpenXR Vendors is not included in the repo but will be downloaded by CI scripts.
+> When cloning this repository, manually download the version correct for the version of
+> Godot you are using.
 
 # Getting Started
 

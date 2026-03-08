@@ -59,8 +59,8 @@ var _turn_step : float = 0.0
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsDesktopMovementTurn" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsDesktopMovementTurn" or super(xr_name)
 
 func _unhandled_input(event):
 	if !enabled:
@@ -120,7 +120,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 # Test if snap turning should be used
 func _snap_turning():
-	#temp removal - IDK if normal controler will be considered to have this as use
+	#temp removal - IDK if normal controller will be considered to have this as use
 	return false
 #	match turn_mode:
 #		TurnMode.SNAP:
