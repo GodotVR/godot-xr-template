@@ -117,8 +117,8 @@ func set_held_weight(new_weight):
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsCollisionHand"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsCollisionHand"
 
 
 # Return warnings related to this node
@@ -268,7 +268,6 @@ func _move_to_target(delta):
 
 	# Handle too far from target
 	if global_position.distance_to(_target.global_position) > TELEPORT_DISTANCE:
-		print("max distance reached")
 		max_distance_reached.emit()
 
 		global_transform = _target.global_transform

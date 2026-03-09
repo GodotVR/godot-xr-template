@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=16 format=3 uid="uid://4i0pwdtfmtsv"]
+[gd_resource type="VisualShader" format=3 uid="uid://4i0pwdtfmtsv"]
 
 [sub_resource type="VisualShaderNodeCompare" id="5"]
 output_port_for_preview = 0
@@ -62,95 +62,6 @@ function = 2
 condition = 1
 
 [resource]
-code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
-
-uniform vec4 bar_color : source_color;
-uniform sampler2D bar_texture : source_color;
-uniform vec3 cutout = vec3(4.850000, 0.330000, 0.000000);
-uniform float progress;
-
-
-
-void fragment() {
-// ColorParameter:15
-	vec4 n_out15p0 = bar_color;
-
-
-	vec4 n_out19p0;
-// Texture2D:19
-	n_out19p0 = texture(bar_texture, UV);
-	float n_out19p4 = n_out19p0.a;
-
-
-// VectorOp:17
-	vec3 n_out17p0 = vec3(n_out15p0.xyz) * vec3(n_out19p0.xyz);
-
-
-// Input:3
-	vec2 n_out3p0 = UV;
-
-
-// VectorOp:4
-	vec3 n_in4p1 = vec3(10.00000, 1.00000, 0.00000);
-	vec3 n_out4p0 = vec3(n_out3p0, 0.0) * n_in4p1;
-
-
-// VectorOp:5
-	vec3 n_in5p1 = vec3(5.00000, 0.50000, 0.00000);
-	vec3 n_out5p0 = n_out4p0 - n_in5p1;
-
-
-// VectorFunc:6
-	vec3 n_out6p0 = abs(n_out5p0);
-
-
-// Vector3Parameter:20
-	vec3 n_out20p0 = cutout;
-
-
-	bool n_out8p0;
-// Compare:8
-	{
-		bvec2 _bv = greaterThan(vec2(n_out6p0.xy), vec2(n_out20p0.xy));
-		n_out8p0 = any(_bv);
-	}
-
-
-// FloatParameter:12
-	float n_out12p0 = progress;
-
-
-// VectorCompose:13
-	float n_in13p1 = 0.00000;
-	float n_in13p2 = 0.00000;
-	vec3 n_out13p0 = vec3(n_out12p0, n_in13p1, n_in13p2);
-
-
-	bool n_out11p0;
-// Compare:11
-	{
-		bvec2 _bv = lessThan(n_out3p0, vec2(n_out13p0.xy));
-		n_out11p0 = any(_bv);
-	}
-
-
-// FloatOp:14
-	float n_out14p0 = max((n_out8p0 ? 1.0 : 0.0), (n_out11p0 ? 1.0 : 0.0));
-
-
-// FloatOp:18
-	float n_out18p0 = n_out19p4 * n_out14p0;
-
-
-// Output:0
-	ALBEDO = n_out17p0;
-	ALPHA = n_out18p0;
-
-
-}
-"
-graph_offset = Vector2(-744.269, 307.118)
 flags/unshaded = true
 nodes/fragment/0/position = Vector2(1220, 440)
 nodes/fragment/3/node = SubResource("10")

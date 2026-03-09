@@ -1,3 +1,8 @@
+# 4.5.0
+ - Upgrade Godot XR Tools to 4.5.1
+ - Upgrade to using Godot 4.6
+ - Update CI accordingly
+
 # 4.4.0
  - Upgrade Godot XR Tools to 4.4.0
  - Add CI publish scripts

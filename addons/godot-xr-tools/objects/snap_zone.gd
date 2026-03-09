@@ -62,8 +62,8 @@ var _object_in_grab_area = Array()
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsSnapZone"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsSnapZone"
 
 
 func _ready():
@@ -73,7 +73,7 @@ func _ready():
 
 	# Add important connections
 	if not body_entered.is_connected(_on_snap_zone_body_entered):
-		body_entered.connect(_on_snap_zone_body_exited)
+		body_entered.connect(_on_snap_zone_body_entered)
 	if not body_exited.is_connected(_on_snap_zone_body_exited):
 		body_exited.connect(_on_snap_zone_body_exited)
 
@@ -179,6 +179,13 @@ func _initial_object_check() -> void:
 	else:
 		# Show highlight when empty and enabled
 		highlight_updated.emit(self, enabled)
+
+	# Stop any audio from initial pickup
+	var audio := get_node("AudioStreamPlayer3D") if has_node("AudioStreamPlayer3D") else null
+
+	# Only stop if the user doesn't intend to auto-play
+	if audio is AudioStreamPlayer3D and !audio.autoplay:
+		audio.stop()
 
 
 # Called when a body enters the snap zone

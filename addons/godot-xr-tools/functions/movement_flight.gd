@@ -39,7 +39,7 @@ signal flight_finished()
 ## Enumeration of controller to use for flight
 enum FlightController {
 	LEFT,		## Use left controller
-	RIGHT,		## Use right controler
+	RIGHT,		## Use right controller
 }
 
 ## Enumeration of pitch control input
@@ -104,8 +104,8 @@ var _controller : XRController3D
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementFlight" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsMovementFlight" or super(xr_name)
 
 
 func _ready():

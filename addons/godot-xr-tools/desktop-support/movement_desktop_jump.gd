@@ -28,8 +28,8 @@ extends XRToolsMovementProvider
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsDesktopMovementJump" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsDesktopMovementJump" or super(xr_name)
 
 
 # Perform jump movement
@@ -41,4 +41,3 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	# Request jump if the button is pressed
 	if Input.is_action_pressed(jump_button_action):
 		player_body.request_jump()
-
