@@ -67,7 +67,6 @@ https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.ht
 Common areas to find assets are:
  - [Godot Asset Library](https://godotengine.org/asset-library/asset)
  - [AmbientCG](https://ambientcg.com/) for object and sky textures
- - [FreePD.com](https://freepd.com/) for sound tracks
  - [FreeSound](https://freesound.org/) for sound effects
  - [Kenney.nl](https://kenney.nl/) 
 
