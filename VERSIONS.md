@@ -1,4 +1,4 @@
-# 4.5.1
+# 4.6.0
  - Fix broken link
  - Upgrade to using Godot 4.7.2 and Vendor plugin 5.1.0
  - Update CI accordingly
