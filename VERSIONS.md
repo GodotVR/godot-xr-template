@@ -1,3 +1,6 @@
+# 4.5.1
+- Fix broken link
+
 # 4.5.0
  - Upgrade Godot XR Tools to 4.5.1
  - Upgrade to using Godot 4.6
