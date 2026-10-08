@@ -1,7 +1,9 @@
 # 4.5.1
-- Fix broken link
+ - Fix broken link
  - Upgrade to using Godot 4.7.2 and Vendor plugin 5.1.0
  - Update CI accordingly
+ - Upgrade Godot XR Tools to 4.5.2
+ - Upgrade to using Godot 4.7
 
 # 4.5.0
  - Upgrade Godot XR Tools to 4.5.1
